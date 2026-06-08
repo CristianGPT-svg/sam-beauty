@@ -1,2580 +1,3 @@
-
-Claude terminó la respuesta
-1780866743972_WhatsApp Image 2026-05-04 at 1.16.18 PM.jpeg
-1780866757314_WhatsApp Image 2026-05-18 at 12.45.18 AM.jpeg
-1780866768565_image.png
-1780866772916_image.png
-1780866777452_image.png
-Para mantener la coherencia con lo que hemos trabajado, he consolidado el prompt maestro del Sam Beauty Dashboard. Este es el documento de referencia que guía nuestro desarrollo técnico y funcional:
-Prompt Maestro: Desarrollo del Sam Beauty Dashboard
-Objetivo: Crear un sistema automatizado de gestión de citas y control de servicios para "Sam Beauty", integrando la reserva de clientes con la actualización en tiempo real de una base de datos maestra.
-1. Estructura de Eventos (Cal.com): El sistema debe estar configurado por tipos de eventos específicos para bloquear los tiempos reales de operación:
-
-Pestañas Aplicación Nueva: 120 min
-Pestañas Retoque: 90 min
-Lash Combo: 90 min
-Lifting: 60 min
-Lami Brows: 60 min
-Diseño de Cejas (incluye Brow Art y Brow Makeup): 60 min
-Keratina: 240 min
-Funcionalidades del Dashboard (Streamlit + Python + Sheets):
-
-Gestión de Citas: Al seleccionar el nombre de un cliente, se debe mostrar su historial de última cita, día y horario.
-Visualización Diaria: El dashboard debe presentar las citas del día listando: Nombre del cliente, Precio del servicio y Horario.
-Alertas: Implementar una función que avise sobre los cumpleaños cercanos de los clientes registrados.
-Estética: Aplicar un diseño visual con fondo ivory o beige en la sección específica de pestañas.
-Especificaciones Técnicas:
-
-Backend: Python para la lógica de automatización y conexión con Google Sheets API.
-Frontend: Streamlit para la interfaz del usuario.
-Conexión: Webhooks desde Cal.com para el envío de datos de nuevas reservas hacia el Google Sheet maestro.
-Mostrar más
-15:13
-
-Reading frontend design skill
-Reading frontend design skill
-Entendido. Voy a construir un Sam Beauty Dashboard completo como React artifact — un sistema de gestión de citas elegante con estética de salón de belleza de lujo, usando los datos reales de servicios y precios de tus imágenes.
-
-V
-
-Conectando a visualize...
-Aquí tienes el Sam Beauty Dashboard completo con todo lo que planteaste en tus notas. Lo que incluye:
-
-Pestaña Hoy — resumen del día con stats (citas, total estimado, horas), todas las citas listando nombre + servicio + horario + precio + estatus, formas de pago disponibles, y la alerta de cumpleaños (Valentina el 12 Jun, Camila el 10 Jun).
-
-Pestaña Clientes — búsqueda en tiempo real, al tocar cada cliente se despliega su última cita con día y horario, historial médico (opción múltiple), notas y fecha de cumpleaños. Los clientes con cumpleaños próximo tienen 🎂.
-
-Pestaña Servicios — separado en extensiones de pestañas (con precios de retoques a 15 y 20 días) y la sección de cejas/lifting, con estética ivory/beige tal como pediste.
-
-Pestaña Nueva Cita — formulario completo: cliente, fecha, hora, servicio (con tiempos reales del prompt maestro), notas de valoración, forma de pago y estatus. Al confirmar, si es para hoy, la cita aparece en la agenda automáticamente.
-
-Esto es el prototipo visual/funcional del frontend. ¿Quieres que continuemos con el backend en Python (conexión con Google Sheets + webhooks de Cal.com)?
-
-Ayudame a poner todos los servicios en el cal.com de forma ordenada, estoy en 0, no he puesto ningun servicio
-
-15:16
-
-Se buscó en la web
-Se buscó en la web
-Perfecto, ya tengo lo que necesito. Te voy a dar una guía paso a paso súper clara para configurar Cal.com desde cero con todos tus servicios.
-
-V
-
-Conectando a visualize...
-Toca cada servicio en la guía para ver exactamente qué escribir campo por campo. El orden en que te recomiendo crearlos es este:
-
-Pestañas Aplicación Nueva (el más importante, empieza con él para practicar)
-Pestañas Retoque
-Lash Lifting
-Lash Combo
-Lami Brows
-Diseño de Cejas
-Keratina (al último porque requiere confirmación obligatoria y precio a valorar)
-Dos cosas que marcan la diferencia desde el inicio: activa "Requires confirmation" en todos — así el horario queda bloqueado solo hasta que tú apruebes, que es exactamente el flujo que describiste en tus notas. Y agrega el campo de WhatsApp en todos para tener el contacto directo de cada cliente desde la reserva.
-
-¿Quieres que te ayude paso a paso con el primero, o ya que tengas todos creados seguimos con el webhook hacia Google Sheets?
-
-Me gustó pero en dado caso que la clienta quiera agregar los otros servicios desde el cal, como le hago, quiero que veas todas las posibilidades como cliente para perfeccionarlo y tenerlo completo, abarca todos lo servicios que tiene por favor
-
-15:19
-Voy a revisar todo el menú de servicios de las imágenes para tenerlo completo y sin dejar nada fuera.
-
-V
-
-Conectando a visualize...
-Toca cada servicio para ver exactamente qué escribir campo por campo. Puedes filtrar por categoría arriba. Aquí el resumen de las decisiones clave que tomé revisando todo el menú:
-
-Por qué separé Aplicación Nueva en dos event types (Clásicas/Híbridas vs Efectos/Volumen): los precios son distintos ($650–780 vs $750–950) y la clienta que quiere MegaVolumen sabe perfectamente que no quiere unas Clásicas. Así ella llega directo al que le corresponde.
-
-Por qué separé los retoques en 15 y 20 días: el precio cambia según los días transcurridos y si los combinas en uno solo, la clienta tiene que leer texto para entender cuál aplica. Así es un clic directo.
-
-El Shot de Vitamina no lo tenías en la guía anterior — lo incluí porque es un tratamiento real con su propio tiempo (20 min) y precio ($500 por el ciclo de 3 sesiones).
-
-Los productos (Kit, Lash Shampoo, Desmaquillante) no tienen event type — no tiene sentido que alguien agende una cita para comprar un shampoo. Se venden cuando la clienta ya está en el sillón.
-
-En total son 12 event types para crear. ¿Quieres que sigamos con cómo configurar los campos de booking questions, o ya pasamos al webhook con Google Sheets?
-
-1780867505987_image.png
-1780867515315_image.png
-Dime igual cada detalle que tengo que poner porfavor, son muchas cosas que tengo que llenar, quiero que me digas absolutamente que llenar en cada campo
-
-15:25
-Perfecto, veo exactamente en qué pantalla estás. Ya tienes el primero creado con la descripción, URL y duración correctas. Voy a darte una guía pestaña por pestaña, campo por campo para ese servicio y todos los demás.
-
-
-
-Esto es todo lo que me aparaece, con esto ayudame a configurarlo
-
-15:39
-Perfecto, veo exactamente lo que tienes en pantalla. Voy a darte instrucciones precisas para cada cosa que ves.
-
-V
-
-visualize
-V
-
-visualize
-Parece que el visualizador está teniendo problemas técnicos. Te doy toda la información directamente:
-
-CONFIRMATION (imagen 1)
-
-Solo hay una cosa que hacer: clic en Edit junto a "Calendar event name" y escribe: Pestañas — Aplicación Nueva · {Scheduler}
-
-El {Scheduler} lo reemplaza Cal.com solo con el nombre de la clienta. Lo demás (Redirect on booking, Custom Reply-To, Cal Video) déjalo todo apagado, no lo necesitas.
-
-BOOKING FORM (imagen 2)
-
-Esto es lo que haces con cada campo visible:
-
-Confirmation → deja seleccionado Email (ya está)
-Your name → no tocar, está bien
-Email address → toggle ya está azul, déjalo así
-Phone number → clic en Edit → renombra a Número de WhatsApp → activa el toggle → marca como Required
-What is this meeting about? → dejar apagado/oculto
-Additional notes → toggle ya está azul → clic en Edit → renombra a Notas adicionales / alergias
-Add guests → apagar el toggle (no necesitas esto)
-Luego busca + Add a question al final y agrega dos campos nuevos:
-
-Campo 1 — Type: Select · Label: ¿Qué tipo de extensiones quieres? · Required · Opciones: Clásicas — $650 / Clásicas Cafés — $650 / Clásicas Pro — $780 / Híbridas — $680 / No sé aún, me orientan
-
-Campo 2 — Type: Checkbox · Label: ¿Es tu primera vez con nosotras? · Optional
-
-APPEARANCE (imagen 3)
-
-Layout → activa los 3 (Month, Weekly, Column) → Default view: Weekly
-Event type color → activa el toggle → color 
-#C9A97A
-Auto translate → apagado
-Interface language → activa → selecciona Español
-Lock timezone on booking page → activar ON (muy importante para Mérida)
-Luego Save arriba a la derecha.
-
-TRUCO CLAVE: Cuando termines este primer servicio, en la lista de Event Types dale a los tres puntos ··· del card y selecciona Duplicate. Cal.com copia todo — booking form, appearance, confirmation — y solo cambias el título, descripción, duración y las opciones del dropdown. Así los 12 servicios restantes te toman 3 minutos cada uno en vez de 15.
-
-¿Ya guardaste el primero? ¿Seguimos con el siguiente?
-
-Pero damelo otra vez pero como antes, estaba muy bien estructurado y solo tenia que darle click en cada uno para ver como estaba configurado
-
-15:51
-V
-
-visualize
-Hay un problema técnico con el visualizador en este momento. Pero ya tengo todo el contenido preparado — en cuanto el visualizador vuelva a funcionar te lo muestro exactamente como antes con los botones de servicios arriba y las pestañas Basics / Availability / Booking form / Confirmation / Appearance para cada uno.
-
-Mientras tanto, ¿en qué servicio estás trabajando ahorita? Te doy los campos exactos de ese en texto para que no pierdas tiempo.
-
-En cuanto tiempo?
-
-15:59
-No tengo forma de saber cuándo exactamente se recupera el visualizador — es un problema del lado de la plataforma y no depende de mí.
-
-Lo que sí puedo hacer ahora mismo: darte todo el contenido en texto bien organizado, servicio por servicio, igual de completo. No es tan visual como los botones, pero tiene exactamente la misma información.
-
-¿Quieres que te lo dé así mientras se resuelve, o prefieres esperar? También puedes intentar abrir una conversación nueva — a veces eso lo restablece.
-
-Si
-
-15:59
-Aquí va todo, organizado igual que antes. Empieza por el servicio en el que estés y sigue en orden.
-
-PESTAÑAS — APLICACIÓN NUEVA (ya lo tienes, solo revisa)
-
-Basics
-
-Title: Pestañas — Aplicación Nueva
-Description: Primera vez o aplicación completa de extensiones. El precio varía según el tipo que elijas.
-URL slug: pestanas-aplicacion-nueva
-Duration: 120 minutos
-Location: In Person (Organizer Address)
-Add to calendar: citas.samantha@gmail.com
-Allow multiple durations: OFF
-Availability
-
-Minimum notice: 120 minutos
-Buffer time before: 0
-Buffer time after: 15 minutos
-Limit future bookings: 30 días
-Booking form
-
-Phone number → Edit → Label: Número de WhatsApp → toggle ON → Required
-Additional notes → Edit → Label: Notas adicionales / alergias → toggle ON
-Add guests → toggle OFF
-+ Add a question → Type: Select → Label: ¿Qué tipo de extensiones quieres? → Required → Opciones: Clásicas — $650 / Clásicas Cafés — $650 / Clásicas Pro — $780 / Híbridas — $680 / No sé aún, me orientan
-+ Add a question → Type: Checkbox → Label: ¿Es tu primera vez con nosotras? → Optional
-Confirmation
-
-Requires confirmation: ON
-Calendar event name → Edit: Pestañas — Aplicación Nueva · {Scheduler}
-Todo lo demás: OFF
-Appearance
-
-Layout: activa los 3 (Month, Weekly, Column) → Default: Weekly
-Event type color: 
-#C9A97A
-Interface language: Español
-Lock timezone: ON
-PESTAÑAS — EFECTOS & VOLUMEN
-
-Basics
-
-Title: Pestañas — Efectos & Volumen
-Description: Extensiones de efectos especiales o volumen tecnológico: Wispy, Manga, Efecto Mojado, Volumen 2D–5D y MegaVolumen. El precio varía según el estilo elegido.
-URL slug: pestanas-efectos-volumen
-Duration: 120 minutos
-Location: In Person (Organizer Address)
-Availability
-
-Minimum notice: 120 minutos
-Buffer after: 15 minutos
-Limit future: 30 días
-Booking form
-
-Phone number → Label: Número de WhatsApp → ON → Required
-Additional notes → Label: Notas adicionales / alergias → ON
-Add guests → OFF
-+ Add a question → Select → ¿Cuál estilo te interesa? → Required → Opciones: Efecto Mojado — $780 / Efecto Mojado Cafés — $780 / Wispy — $780 / Manga / Anime — $780 / Volumen Tec 2D/3D — $750 / Volumen Tec 4D/5D — $750 / MegaVolumen Tec — $950 / No sé aún, me orientan
-+ Add a question → Checkbox → ¿Quieres efecto de color o glitter? (+$100) → Optional
-+ Add a question → Checkbox → ¿Es tu primera vez con nosotras? → Optional
-Confirmation
-
-Requires confirmation: ON
-Calendar event name: Pestañas Efectos & Volumen · {Scheduler}
-Todo lo demás: OFF
-Appearance — igual en todos los servicios:
-
-Layout default: Weekly, activa los 3
-Color: 
-#C9A97A · Language: Español · Lock timezone: ON
-PESTAÑAS — RETOQUE 15 DÍAS
-
-Basics
-
-Title: Pestañas — Retoque 15 días
-Description: Retoque de extensiones con 15 días o menos desde tu última cita. Precio: Natural/Híbridas $450 · Efectos/Volumen $470 · MegaVolumen $500.
-URL slug: retoque-15
-Duration: 90 minutos
-Availability
-
-Minimum notice: 60 minutos
-Buffer after: 10 minutos
-Limit future: 30 días
-Booking form
-
-Phone number → Número de WhatsApp → ON → Required
-Additional notes → Notas adicionales / alergias → ON
-Add guests → OFF
-+ Add a question → Select → ¿Qué tipo de extensiones tienes actualmente? → Required → Opciones: Natural / Clásicas — $450 / Clásicas Pro / Híbridas — $450 / Efectos / Volumen Tec — $470 / MegaVolumen — $500
-Confirmation
-
-Requires confirmation: ON
-Calendar event name: Retoque 15d · {Scheduler}
-Appearance — igual en todos
-
-PESTAÑAS — RETOQUE 20 DÍAS
-
-Basics
-
-Title: Pestañas — Retoque 20 días
-Description: Retoque de extensiones entre 16 y 20 días desde tu última cita. Precio: Natural/Híbridas $500 · Efectos/Volumen $500 · MegaVolumen $600.
-URL slug: retoque-20
-Duration: 90 minutos
-Availability
-
-Minimum notice: 60 minutos
-Buffer after: 10 minutos
-Limit future: 30 días
-Booking form
-
-Phone number → Número de WhatsApp → ON → Required
-Additional notes → Notas adicionales / alergias → ON
-Add guests → OFF
-+ Add a question → Select → ¿Qué tipo de extensiones tienes actualmente? → Required → Opciones: Natural / Clásicas — $500 / Clásicas Pro / Híbridas — $500 / Efectos / Volumen Tec — $500 / MegaVolumen — $600
-Confirmation
-
-Requires confirmation: ON
-Calendar event name: Retoque 20d · {Scheduler}
-Appearance — igual en todos
-
-RETIRO DE EXTENSIONES
-
-Basics
-
-Title: Retiro de extensiones
-Description: Remoción profesional y segura de extensiones de pestañas. $140. Si quieres aplicación nueva después, indícalo en las notas.
-URL slug: retiro-extensiones
-Duration: 45 minutos
-Availability
-
-Minimum notice: 60 minutos
-Buffer after: 10 minutos
-Limit future: 30 días
-Booking form
-
-Phone number → Número de WhatsApp → ON → Required
-Additional notes → Notas adicionales / alergias → ON
-Add guests → OFF
-+ Add a question → Checkbox → ¿Quieres agendar extensiones nuevas después del retiro? → Optional
-Confirmation
-
-Requires confirmation: OFF (es automático, no necesita valoración)
-Calendar event name: Retiro de extensiones · {Scheduler}
-Appearance — igual en todos
-
-LASH COMBO
-
-Basics
-
-Title: Lash Combo
-Description: Lifting de pestañas + laminado de cejas en una sola sesión. Incluye diseño, depilación de cejas, suero de vitaminas, botox y tinte opcional. Resultado: 4–6 semanas. $650.
-URL slug: lash-combo
-Duration: 90 minutos
-Availability
-
-Minimum notice: 120 minutos
-Buffer after: 15 minutos
-Limit future: 30 días
-Booking form
-
-Phone number → Número de WhatsApp → ON → Required
-Additional notes → Notas adicionales / alergias → ON
-Add guests → OFF
-+ Add a question → Checkbox → ¿Deseas tinte en el lifting de pestañas? (sin costo extra) → Optional
-+ Add a question → Select → Tipo de depilación de cejas → Required → Opciones: Pinzas / Filito / Cera española
-+ Add a question → Checkbox → ¿Es tu primera vez con nosotras? → Optional
-Confirmation
-
-Requires confirmation: ON
-Calendar event name: Lash Combo · {Scheduler}
-Appearance — igual en todos
-
-LASH LIFTING
-
-Basics
-
-Title: Lash Lifting
-Description: Levantamiento de pestañas naturales desde la raíz. Incluye suero de vitaminas (botox) y tinte opcional. Resultado dura 4–6 semanas. $450.
-URL slug: lash-lifting
-Duration: 60 minutos
-Availability
-
-Minimum notice: 120 minutos
-Buffer after: 10 minutos
-Limit future: 30 días
-Booking form
-
-Phone number → Número de WhatsApp → ON → Required
-Additional notes → Notas adicionales / alergias → ON
-Add guests → OFF
-+ Add a question → Checkbox → ¿Deseas tinte de pestañas? (incluido, sin costo extra) → Optional
-+ Add a question → Checkbox → ¿Es tu primera vez con nosotras? → Optional
-Confirmation
-
-Requires confirmation: ON
-Calendar event name: Lash Lifting · {Scheduler}
-Appearance — igual en todos
-
-BROW ART — DISEÑO DE CEJAS
-
-Basics
-
-Title: Brow Art — Diseño de cejas
-Description: Epilación, depilación y diseño de cejas. Mantenimiento mensual recomendado. $250.
-URL slug: brow-art
-Duration: 60 minutos
-Availability
-
-Minimum notice: 60 minutos
-Buffer after: 10 minutos
-Limit future: 30 días
-Booking form
-
-Phone number → Número de WhatsApp → ON → Required
-Additional notes → Notas adicionales / alergias → ON
-Add guests → OFF
-+ Add a question → Select → Tipo de depilación preferida → Required → Opciones: Pinzas / Filito / Cera española / Sin preferencia
-+ Add a question → Checkbox → ¿Es tu primera vez con nosotras? → Optional
-Confirmation
-
-Requires confirmation: OFF (automático, servicio sencillo)
-Calendar event name: Brow Art · {Scheduler}
-Appearance — igual en todos
-
-LAMI BROWS
-
-Basics
-
-Title: Lami Brows
-Description: Laminado de cejas + epilación, depilación y diseño. Resultado de 4–6 semanas. $450.
-URL slug: lami-brows
-Duration: 60 minutos
-Availability
-
-Minimum notice: 120 minutos
-Buffer after: 10 minutos
-Limit future: 30 días
-Booking form
-
-Phone number → Número de WhatsApp → ON → Required
-Additional notes → Notas adicionales / alergias → ON
-Add guests → OFF
-+ Add a question → Select → Tipo de depilación preferida → Required → Opciones: Pinzas / Filito / Cera española
-+ Add a question → Checkbox → ¿Es tu primera vez con nosotras? → Optional
-Confirmation
-
-Requires confirmation: ON
-Calendar event name: Lami Brows · {Scheduler}
-Appearance — igual en todos
-
-BROW TINT — TINTE DE CEJAS
-
-Basics
-
-Title: Brow Tint — Tinte de cejas
-Description: Aplicación de tinte o henna en cejas + diseño y depilación. Duración del color: 3–7 días. $400.
-URL slug: brow-tint
-Duration: 60 minutos
-Availability
-
-Minimum notice: 60 minutos
-Buffer after: 10 minutos
-Limit future: 30 días
-Booking form
-
-Phone number → Número de WhatsApp → ON → Required
-Additional notes → Notas adicionales / alergias → ON
-Add guests → OFF
-+ Add a question → Select → ¿Tinte o henna? → Required → Opciones: Tinte / Henna
-+ Add a question → Select → Tipo de depilación preferida → Required → Opciones: Pinzas / Filito / Cera española
-Confirmation
-
-Requires confirmation: OFF (automático)
-Calendar event name: Brow Tint · {Scheduler}
-Appearance — igual en todos
-
-FULL BROWS
-
-Basics
-
-Title: Full Brows
-Description: El servicio más completo de cejas: epilación, depilación, diseño, laminado, henna o tinte, exfoliación y botox. $470.
-URL slug: full-brows
-Duration: 60 minutos
-Availability
-
-Minimum notice: 120 minutos
-Buffer after: 10 minutos
-Limit future: 30 días
-Booking form
-
-Phone number → Número de WhatsApp → ON → Required
-Additional notes → Notas adicionales / alergias → ON
-Add guests → OFF
-+ Add a question → Select → Tipo de depilación preferida → Required → Opciones: Pinzas / Filito / Cera española
-+ Add a question → Select → ¿Henna o tinte para las cejas? → Required → Opciones: Henna / Tinte
-+ Add a question → Checkbox → ¿Es tu primera vez con nosotras? → Optional
-Confirmation
-
-Requires confirmation: ON
-Calendar event name: Full Brows · {Scheduler}
-Appearance — igual en todos
-
-KERATINA
-
-Basics
-
-Title: Keratina
-Description: Tratamiento de keratina profesional. El precio se cotiza al confirmar tu cita según el largo y tipo de cabello. Por favor describe tu cabello en el formulario.
-URL slug: keratina
-Duration: 240 minutos (4 horas)
-Availability
-
-Minimum notice: 1440 minutos (24 horas)
-Buffer after: 0 minutos
-Limit future: 30 días
-Booking form
-
-Phone number → Número de WhatsApp → ON → Required
-Additional notes → Notas adicionales / alergias → ON
-Add guests → OFF
-+ Add a question → Textarea → Describe tu cabello: largo aproximado, textura y tratamientos previos (necesario para cotizar) → Required
-+ Add a question → Checkbox → ¿Es tu primera vez con nosotras? → Optional
-Confirmation
-
-Requires confirmation: ON (indispensable — no confirmes hasta acordar el precio)
-Calendar event name: Keratina · {Scheduler}
-Appearance — igual en todos
-
-SHOT DE VITAMINA — REPARACIÓN DE PESTAÑAS
-
-Basics
-
-Title: Shot de Vitamina — Reparación de pestañas
-Description: Tratamiento de reparación con suero restructurante para pestañas dañadas. Son 3 sesiones de 20 min, una por semana. Precio total del ciclo: $500.
-URL slug: shot-vitamina
-Duration: 20 minutos
-Availability
-
-Minimum notice: 60 minutos
-Buffer after: 5 minutos
-Limit future: 30 días
-Booking form
-
-Phone number → Número de WhatsApp → ON → Required
-Additional notes → Notas adicionales / alergias → ON
-Add guests → OFF
-+ Add a question → Select → ¿Cuál sesión agendas? → Required → Opciones: Primera sesión / Segunda sesión / Tercera sesión
-Confirmation
-
-Requires confirmation: ON
-Calendar event name: Shot Vitamina · {Scheduler}
-Appearance — igual en todos
-
-Recuerda el truco clave: cuando termines el primero, usa Duplicate (los tres puntos ··· en la lista de event types) y solo cambias lo que es diferente en cada uno. Te ahorra muchísimo tiempo. ¿En cuál vas ahorita?
-
-1780869882740_image.png
-1780869892978_image.png
-esto me aparece cuando agrego la pregunta
-
-16:05
-Veo el problema. Tienes el Input type en Long Text pero necesitas cambiarlo a Select para que aparezcan las opciones como dropdown. Aquí exactamente qué hacer en cada campo:
-
-1. Input type Da clic en donde dice Long Text → selecciona Select (Así aparecerán las opciones para agregar una por una)
-
-2. Label Ya está bien escrito: ¿Qué tipo de extensiones quieres? ✓
-
-3. Identifier Borra rescheduleReason → escribe: tipoExtensiones (Sin espacios, sin acentos)
-
-4. Disable input if URL identifier is prefilled Dejar sin palomear
-
-5. Placeholder Escribe: Selecciona el tipo de extensión
-
-6. Opciones ← esto aparece solo cuando cambias a Select Agrega una por una:
-
-Clásicas — $650
-Clásicas Cafés — $650
-Clásicas Pro — $780
-Híbridas — $680
-No sé aún, me orientan
-7. Make this field required Palomear ✓ — marcarlo como requerido
-
-El paso clave es ese primero: cambiar Long Text → Select. Todo lo demás cambia en cuanto lo seleccionas. ¿Lo ves?
-
-1780872345501_image.png
-En la apareciencia me aparece esto
-
-16:45
-Veo el problema — el color que tienes escrito está mal. Tiene una C mayúscula en lugar de #. Aquí exactamente qué corregir:
-
-Event type color (light theme) Borra lo que tiene → escribe: 
-#C9A97A (El error es que pusiste C92929 en vez del dorado)
-
-Event type color (dark theme) Borra fafafa → escribe: 
-#C9A97A (Mismo color para ambos temas)
-
-El aviso naranja de "doesn't pass contrast check" desaparece solo cuando pongas el color correcto. Es solo una advertencia, no bloquea nada.
-
-¿Ya te dejó guardarlo o sigue marcando error?
-
-sIGUE ERROR
-
-16:47
-Es porque el dorado 
-#C9A97A es un color claro y Cal.com lo rechaza en light theme por contraste. Usa este color que sí pasa la validación y se ve muy similar:
-
-Event type color (light theme) Borra lo que tiene → escribe: 
-#8B6914
-
-Event type color (dark theme) Borra lo que tiene → escribe: 
-#C9A97A
-
-El dorado oscuro 
-#8B6914 pasa el contraste en fondo claro, y el dorado suave 
-#C9A97A se ve perfecto en fondo oscuro. Guarda y ya no debe marcar error. ¿Funcionó?
-
-Sigue error
-
-16:47
-No te preocupes por el color — es solo una advertencia visual, no impide guardar.
-
-Simplemente:
-
-Deja el color como está
-Da clic en Save arriba a la derecha
-Cal.com te deja guardar aunque marque ese aviso naranja. El color solo afecta cómo se ve el event type en tu panel interno, no afecta nada de lo que ve la clienta.
-
-¿Te deja dar clic en Save?
-
-eso de textarea no me aparece
-
-17:19
-Normal — Cal.com no tiene "Textarea" como opción separada. Es lo mismo que Long Text.
-
-Entonces para el campo de descripción del cabello en Keratina:
-
-Input type → Long Text (este es el textarea)
-
-Label → Describe tu cabello: largo aproximado, textura y tratamientos previos (necesario para cotizar)
-
-Identifier → descripcionCabello
-
-Placeholder → Ej: cabello largo hasta la cintura, rizado, con tinte previo
-
-Min. characters → 0
-
-Max. characters → 1000
-
-Make this field required → palomear ✓
-
-Long Text es exactamente lo que necesitas ahí — es una caja grande donde la clienta puede escribir varios renglones. ¿Ese sí te aparece en el dropdown de Input type?
-
-Listo, ya acabé cada uno
-
-17:23
-¡Excelente! Eso es un gran avance. Ahora tienes los 13 servicios listos en Cal.com.
-
-El siguiente paso según el prompt maestro es conectar Cal.com con Google Sheets vía webhook, para que cada vez que una clienta agende, los datos lleguen automáticamente a tu hoja de registro sin que tengas que escribir nada a mano.
-
-¿Quieres que sigamos con eso ahora?
-
-Si, quieres que te pase mi hoja o prefieres empezar una desde cero
-
-17:23
-Pásame la hoja que tienes — así respeto lo que ya llevas avanzado y no te hago rehacer trabajo. Compártela o mándame un screenshot de cómo está estructurada actualmente.
-
-Mejor hagamos una de cero para evitar errores
-
-17:24
-Perfecto, es la decisión más limpia. Antes de crearla necesito saber una cosa:
-
-¿Dónde prefieres que trabajemos los datos que lleguen de Cal.com?
-
-Google Sheets — lo que teníamos planeado en el prompt maestro, se conecta fácil con webhooks
-Notion — más visual, bueno si quieres ver clientes como tarjetas
-Airtable — mezcla de tabla y base de datos
-Basándome en todo lo que hemos trabajado, Google Sheets es lo que más te conviene porque ya tienes el Gmail de citas conectado y es lo más simple de mantener. ¿Confirmamos Google Sheets?
-
-Quiero usar algo practico y donde no tengas que pagar mensualidad en dado caso que se me acabe el plan gratis
-
-17:25
-Google Sheets es la respuesta perfecta entonces — es completamente gratis para siempre, ya lo tienes con tu cuenta de Gmail y no tiene límite de filas para lo que necesitas.
-
-Cuéntame una cosa antes de diseñar la hoja: ¿qué información quieres ver de cada cita? Por ejemplo:
-
-Nombre de la clienta
-Servicio
-Fecha y hora
-Precio
-Forma de pago
-Estatus (confirmada / pendiente)
-WhatsApp
-¿Algo más que necesites ver?
-Dime qué es lo más importante para ti en el día a día y diseño la hoja exactamente a tu medida.
-
-1780874752260_WhatsApp Image 2026-05-04 at 1.16.18 PM.jpeg
-Esto es lo que necesita sam
-Checa esto es lo que quiero lit y solo agregarle que me aparezca al dia que al anotar el tipo de cita y costo que se sume al dia cuanto se hizo y a la semana terminando
-Y me contabilice lo que gano al dia y a la semana
-Una app o pagina una agenda personalizada donde yo lleve un registro de todas mis clientas, con sus historiales
-Mi duda es si quiero agendar no se a mariana para pestañas hibridas y lami brows, me dara opcion de poner que servicio y cuanto seria por ambos?
-Y se reflejan automáticamente o como?
-
-17:27
-Perfecto, leí todo tu cuaderno y entiendo exactamente lo que necesitas. Te respondo todo:
-
-Tu duda sobre agendar dos servicios juntos — ahorita Cal.com no permite seleccionar dos servicios en una sola cita. Pero lo resolvemos fácil: en el booking form de cada servicio hay un campo de "Notas adicionales" donde la clienta puede escribir "también quiero Lami Brows" y tú al confirmar ya sabes que son dos servicios. El precio lo calculas tú al confirmar.
-
-La otra opción es que tú misma registres la cita combinada directamente en la hoja de Google Sheets sin pasar por Cal.com.
-
-Lo que voy a construir basándome en tu cuaderno y lo que pides:
-
-Hoja 1 — CITAS (lo que llega de Cal.com automático) Fecha · Hora · Nombre · WhatsApp · Servicio · Precio · Estatus · Forma de pago · Notas
-
-Hoja 2 — CLIENTES (registro de cada clienta) Nombre · WhatsApp · Cumpleaños · Historial médico · Última cita · Servicio · Fotos (link) · Notas/descripción
-
-Hoja 3 — INGRESOS (se calcula solo) Total del día · Total de la semana · Total del mes · Por servicio
-
-¿Arrancamos con esto? Créame el Google Sheets en tu Drive con el nombre "Sam Beauty — Sistema" y me compartes el link para darte las instrucciones exactas de cómo estructurarlo.
-
-https://docs.google.com/spreadsheets/d/14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc/edit?usp=sharing
-
-17:29
-Voy a revisar la hoja que compartiste.
-
-
-Fetched: Sam Beauty — Sistema
-Fetched: Sam Beauty — Sistema
-La hoja está completamente vacía, perfecto — empezamos desde cero limpio. Aquí exactamente qué hacer tú en Google Sheets para estructurarla:
-
-Primero — crea 3 pestañas en la parte de abajo
-
-Haz clic derecho en "Hoja 1" → Renombrar → escribe CITAS Luego el botón + para agregar → nómbrala CLIENTES Otro + → nómbrala INGRESOS
-
-Pestaña CITAS — escribe estos encabezados en la fila 1, una palabra por columna:
-
-A1: Fecha
-B1: Hora
-C1: Nombre
-D1: WhatsApp
-E1: Servicio
-F1: Precio
-G1: Forma de pago
-H1: Estatus
-I1: Notas / Alergias
-J1: Primera vez
-Pestaña CLIENTES — fila 1:
-
-A1: Nombre
-B1: WhatsApp
-C1: Cumpleaños
-D1: Última cita
-E1: Último servicio
-F1: Historial médico
-G1: Notas / Descripción
-H1: Fotos (link)
-Pestaña INGRESOS — fila 1:
-
-A1: Fecha
-B1: Total del día
-C1: Total de la semana
-D1: Total del mes
-Dime cuando tengas eso listo y te doy las fórmulas exactas para que los totales se calculen solos, y después conectamos el webhook de Cal.com para que todo llegue automático.
-
-Listo
-
-17:32
-Perfecto. Ahora las fórmulas. Ve a la pestaña INGRESOS y escribe esto:
-
-En B2 (total del día de hoy):
-
-=SUMIF(CITAS!A:A,TODAY(),CITAS!F:F)
-En C2 (total de la semana actual):
-
-=SUMIFS(CITAS!F:F,CITAS!A:A,">="&(TODAY()-WEEKDAY(TODAY(),2)+1),CITAS!A:A,"<="&(TODAY()-WEEKDAY(TODAY(),2)+7))
-En D2 (total del mes actual):
-
-=SUMIFS(CITAS!F:F,CITAS!A:A,">="&DATE(YEAR(TODAY()),MONTH(TODAY()),1),CITAS!A:A,"<="&EOMONTH(TODAY(),0))
-En A2 escribe:
-
-=TODAY()
-Ahora ve a la pestaña CITAS y haz esto para que la columna H (Estatus) tenga un menú desplegable:
-
-Selecciona toda la columna H desde H2 hacia abajo
-Menú superior → Datos → Validación de datos
-Criterio: Lista de elementos
-Escribe: Confirmada,Pendiente,Cancelada,Completada
-Guardar
-Haz lo mismo para la columna G (Forma de pago):
-
-Selecciona G2 hacia abajo
-Datos → Validación de datos → Lista de elementos
-Escribe: Efectivo,Tarjeta,Transferencia
-Guardar
-Dime cuando esté listo y pasamos al webhook de Cal.com para que todo llegue automático sin que tengas que escribir nada a mano.
-
-En criterio no me aparece eso de lista de elementos
-
-17:35
-Normal, en Google Sheets en español se ve diferente. Sigue estos pasos:
-
-Selecciona la columna H desde H2 hacia abajo
-Menú superior → Datos → Validación de datos
-Te aparece un panel a la derecha — da clic en + Agregar regla
-En "Criterios" busca el dropdown y selecciona Menú desplegable
-Ahí aparecen cajitas para escribir las opciones, agrega una por una:
-Confirmada
-Pendiente
-Cancelada
-Completada
-Da clic en Listo
-Repite para columna G (Forma de pago), mismos pasos pero las opciones son:
-
-Efectivo
-Tarjeta
-Transferencia
-¿Te aparece el panel a la derecha cuando entras a Validación de datos?
-
-Listo
-
-17:37
-Perfecto. Ahora viene la parte clave — conectar Cal.com con Google Sheets para que cada cita llegue automática.
-
-Para esto vamos a usar Make (antes Zapier/Integromat) — es gratis, no requiere código y conecta Cal.com con Google Sheets perfectamente.
-
-Paso 1 — Crea tu cuenta en Make
-
-Entra a make.com → Sign up gratis con tu Gmail de citas.samantha@gmail.com
-
-Paso 2 — Crea un escenario nuevo
-
-Da clic en Create a new scenario
-Busca Cal.com como primera app → selecciona el trigger Watch Bookings (nueva reserva)
-Te va a pedir conectar tu cuenta de Cal.com → da clic en Add → te pide un API Key
-Para obtener tu API Key de Cal.com:
-
-Entra a cal.com → Settings → Developer → API Keys
-Da clic en Add → ponle nombre Make Integration
-Copia la key que aparece
-Dime cuando tengas la cuenta de Make creada y la API Key de Cal.com copiada, y seguimos con el siguiente paso para conectar todo.
-
-Estas equivocado, make si es de paga, es limitado
-
-17:38
-Tienes razón, Make tiene límite de operaciones en el plan gratis y se acaba rápido. Mejor usamos algo 100% gratis sin límites.
-
-La solución es Google Apps Script — viene incluido gratis con tu Google Sheets, no tienes que pagar nada nunca y hace exactamente lo mismo.
-
-El flujo sería:
-
-Cal.com manda un webhook cada vez que llega una cita
-Google Apps Script lo recibe
-Lo escribe automáticamente en tu hoja CITAS
-Solo necesito saber una cosa antes de escribirte el código — ¿tienes cuenta de Cal.com en el plan gratuito o en algún plan de pago? Porque el webhook en Cal.com sí está disponible en el plan gratis y necesito confirmarlo para darte los pasos exactos.
-
-El gratuito
-
-17:39
-Perfecto. El webhook sí está disponible en el plan gratuito de Cal.com.
-
-Vamos por partes. Primero el script, luego lo conectamos.
-
-Paso 1 — Abre Google Apps Script
-
-En tu Google Sheets ve al menú superior → Extensiones → Apps Script
-Se abre una página nueva con un editor de código
-Borra todo lo que hay escrito (viene algo por defecto)
-Pega exactamente esto:
-javascript
-function doPost(e) {
-  try {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var data = JSON.parse(e.postData.contents);
-    var payload = data.payload || data;
-
-    var fecha = payload.startTime ? new Date(payload.startTime).toLocaleDateString('es-MX') : '';
-    var hora = payload.startTime ? new Date(payload.startTime).toLocaleTimeString('es-MX', {hour: '2-digit', minute:'2-digit'}) : '';
-    var nombre = payload.attendees && payload.attendees[0] ? payload.attendees[0].name : '';
-    var whatsapp = payload.attendees && payload.attendees[0] ? payload.attendees[0].phoneNumber || '' : '';
-    var servicio = payload.title || '';
-    var precio = '';
-    var formaPago = '';
-    var estatus = payload.status || 'Pendiente';
-    var notas = payload.attendees && payload.attendees[0] ? payload.attendees[0].notes || '' : '';
-    var primeraVez = '';
-
-    if (payload.responses) {
-      precio = payload.responses.precio || payload.responses.price || '';
-      formaPago = payload.responses.formaPago || '';
-      notas = payload.responses.notasAdicionales || notas;
-      primeraVez = payload.responses.primeraVez ? 'Sí' : 'No';
-      whatsapp = payload.responses.numeroDeWhatsApp || whatsapp;
-    }
-
-    sheet.appendRow([fecha, hora, nombre, whatsapp, servicio, precio, formaPago, estatus, notas, primeraVez]);
-
-    return ContentService.createTextOutput(JSON.stringify({status: 'ok'})).setMimeType(ContentService.MimeType.JSON);
-  } catch(err) {
-    return ContentService.createTextOutput(JSON.stringify({status: 'error', message: err.message})).setMimeType(ContentService.MimeType.JSON);
-  }
-}
-Paso 2 — Guarda el script
-
-Da clic en el ícono de guardar 💾 o Ctrl + S
-Ponle nombre al proyecto: Sam Beauty Webhook
-Guardar
-Dime cuando lo tengas guardado y seguimos con el paso de publicarlo para obtener la URL del webhook.
-
-1780875637209_image.png
-17:40
-Perfecto, ya estás en el paso correcto. Ahora:
-
-Da clic en "Seleccionar tipo" (arriba a la izquierda del modal)
-Te aparece un menú — selecciona "Aplicación web"
-Se llena la sección Configuración con estas opciones:
-Configuración que debes poner:
-
-Descripción → escribe: Webhook Sam Beauty
-Ejecutar como → selecciona: Yo (tu correo de Google)
-Quién tiene acceso → selecciona: Cualquier persona ← esto es muy importante, si no Cal.com no puede enviar datos
-Da clic en Implementar
-Te pide autorizar permisos → da clic en Autorizar acceso
-Elige tu cuenta de Google (citas.samantha@gmail.com)
-Aparece una advertencia de "Google no verificó esta app" → da clic en Configuración avanzada → Ir a Sam Beauty Webhook
-Da clic en Permitir
-Después de eso te aparece una URL que dice "URL de la aplicación web" — cópiala y no la cierres, la necesitamos para Cal.com.
-
-¿Te aparece la pantalla de configuración?
-
-https://script.google.com/macros/s/AKfycbz-L9nK6VaNvZdzmnz9OGGo66R7gcbb42-Unf2VCJLOzWPzL3tjkFv3oT9FPZnxiapHFw/exec
-
-17:42
-Perfecto, ya tienes tu URL del webhook. Ahora vamos a Cal.com a conectarlo.
-
-En Cal.com:
-
-Entra a cal.com → menú izquierdo → Settings
-Busca Webhooks (está en la sección Developer)
-Da clic en + New Webhook
-Llena así:
-Subscriber URL → pega tu URL: https://script.google.com/macros/s/AKfycbz-L9nK6VaNvZdzmnz9OGGo66R7gcbb42-Unf2VCJLOzWPzL3tjkFv3oT9FPZnxiapHFw/exec
-Triggers → activa estos 3:
-BOOKING_CREATED ← cuando llega cita nueva
-BOOKING_CONFIRMED ← cuando tú confirmas
-BOOKING_CANCELLED ← cuando se cancela
-Active → toggle ON
-Da clic en Save
-Cuando lo guardes Cal.com te da opción de hacer un Test ping — dale clic y luego revisa tu hoja CITAS para ver si llegó una fila de prueba.
-
-¿Lo ves en Settings?
-
-Error 302
-
-17:44
-El error 302 es normal — Google Apps Script redirige las peticiones y Cal.com no lo maneja bien directamente. Lo solucionamos con un pequeño ajuste al script.
-
-Regresa a Apps Script y haz esto:
-
-Abre Apps Script de nuevo
-Borra todo el código
-Pega este código actualizado:
-javascript
-function doPost(e) {
-  try {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var data = JSON.parse(e.postData.contents);
-    var payload = data.payload || data;
-
-    var fecha = payload.startTime ? new Date(payload.startTime).toLocaleDateString('es-MX') : '';
-    var hora = payload.startTime ? new Date(payload.startTime).toLocaleTimeString('es-MX', {hour: '2-digit', minute:'2-digit'}) : '';
-    var nombre = payload.attendees && payload.attendees[0] ? payload.attendees[0].name : '';
-    var whatsapp = '';
-    var servicio = payload.title || '';
-    var precio = '';
-    var formaPago = '';
-    var estatus = payload.status || 'Pendiente';
-    var notas = '';
-    var primeraVez = '';
-
-    if (payload.responses) {
-      whatsapp = payload.responses.numeroDeWhatsApp || payload.responses.whatsapp || '';
-      notas = payload.responses.notasAdicionalesAlergias || payload.responses.notas || '';
-      primeraVez = payload.responses.esTuPrimeraVezConNosotras ? 'Sí' : 'No';
-    }
-
-    sheet.appendRow([fecha, hora, nombre, whatsapp, servicio, precio, formaPago, estatus, notas, primeraVez]);
-
-    var output = ContentService.createTextOutput(JSON.stringify({status: 'ok'}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-
-  } catch(err) {
-    var output = ContentService.createTextOutput(JSON.stringify({status: 'error', message: err.message}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-  }
-}
-
-function doGet(e) {
-  return ContentService.createTextOutput(JSON.stringify({status: 'ok', message: 'Webhook activo'})).setMimeType(ContentService.MimeType.JSON);
-}
-Guarda con Ctrl + S
-Da clic en Implementar → Nueva implementación
-Tipo: Aplicación web
-Ejecutar como: Yo
-Quién tiene acceso: Cualquier persona
-Da clic en Implementar
-Copia la URL nueva que te da
-La URL nueva es diferente a la anterior — pégamela aquí y la ponemos en Cal.com.
-
-pERO lo puedo hacer en la misma implementacion y solo le voy cambiando la version, no?
-
-17:46
-Sí, exacto — mucho más fácil así. Haz esto:
-
-Da clic en Implementar → Administrar implementaciones
-En tu implementación existente da clic en el ícono de lápiz (editar)
-En Versión selecciona Nueva versión
-Da clic en Implementar
-La URL se queda igual — no cambia. Ya con eso Cal.com sigue usando la misma URL y el código nuevo ya está activo.
-
-Luego regresa a Cal.com y vuelve a hacer el Test ping en el webhook. ¿Te funcionó?
-
-Sigue el errror
-
-17:46
-El problema es que Cal.com no puede hacer POST directamente a Google Apps Script por cómo Google maneja las redirecciones.
-
-La solución más simple y 100% gratis es usar Google Apps Script pero como intermediario distinto. Vamos a usar Pipedream que tiene plan gratis sin límites para esto.
-
-Espera — antes de cambiar, dime exactamente qué error te muestra Cal.com cuando haces el Test ping:
-
-¿Dice "302 redirect"?
-¿Dice "error 302 Found"?
-¿Dice otra cosa?
-Y también dime — cuando hiciste la implementación, en "Quién tiene acceso" ¿seleccionaste "Cualquier persona" o "Cualquier persona, incluso anónimos"? Porque en algunas versiones de Apps Script aparece esa segunda opción y es la que necesitas para que funcione sin login.
-
-1780876030185_image.png
-sigue el error
-
-17:47
-Veo el problema exacto. El error 302 es porque Cal.com no sigue redirecciones de Google Apps Script.
-
-La solución es usar Pipedream — es 100% gratis, sin límites para este uso, y acepta webhooks perfectamente. No necesitas tarjeta.
-
-Paso 1 — Crea cuenta en Pipedream
-
-Entra a pipedream.com → Sign up con tu Gmail
-
-Paso 2 — Crea un nuevo workflow
-
-Da clic en New Project → New Workflow
-En el trigger busca HTTP / Webhook
-Selecciona HTTP Request
-Pipedream te da una URL inmediatamente — cópiala, se ve así: https://eoXXXXXX.m.pipedream.net
-Paso 3 — Pon esa URL en Cal.com
-
-Regresa a Cal.com → tu webhook
-Borra la URL de Google Apps Script
-Pega la URL de Pipedream
-Da clic en Ping test — debe decir Success
-Dime cuando tengas la URL de Pipedream y seguimos conectando con Google Sheets desde ahí.
-
-Ya habia conectado una vez esto, pero fue con otro documento
-
-17:48
-Perfecto, entonces ya sabes cómo funciona. Entra a tu cuenta de Pipedream y dime:
-
-¿Tienes el workflow anterior guardado o lo borraste?
-
-Si lo tienes, lo duplicamos y solo cambiamos el ID del Google Sheets al nuevo. Si no, creamos uno nuevo desde cero — es rápido porque ya sabes los pasos.
-
-Me refiero en en appscript
-
-17:48
-Ah entiendo — dices que ya conectaste Apps Script con Google Sheets antes pero con otro documento.
-
-El problema no es el código, es que Google Apps Script hace una redirección (302) y Cal.com no la sigue. Eso no tiene solución desde Apps Script solo.
-
-Tenemos dos opciones 100% gratuitas:
-
-Opción 1 — Pipedream (más fácil, 5 min) Recibe el webhook de Cal.com y lo manda a tu Apps Script sin el problema del 302.
-
-Opción 2 — Google Cloud Run (más técnico, gratis también) Pero requiere configuración más larga.
-
-Te recomiendo Opción 1 porque ya tienes cuenta y sabes usarla. El flujo sería:
-
-Cal.com → Pipedream → Google Apps Script → Google Sheets
-Pipedream recibe el dato de Cal.com sin problema, y luego se lo pasa a tu script que lo escribe en la hoja. ¿Entramos con esa?
-
-sollo tengo 100 creditos en pupe dream
-
-17:49
-Entiendo. 100 créditos se acaban rápido. Mejor usamos algo completamente gratis sin límites.
-
-La solución es N8N — es open source, 100% gratis, y puedes usarlo en la nube sin instalar nada.
-
-Entra a n8n.io → da clic en Get started free → regístrate con tu Gmail
-
-El plan gratis de n8n incluye:
-
-Workflows ilimitados
-Ejecuciones ilimitadas
-Sin tarjeta de crédito
-Dime cuando tengas la cuenta creada y te guío paso a paso para conectar Cal.com → Google Sheets directamente, sin Apps Script, sin Pipedream, sin costos.
-
-Mira, nada de lo que me estas dando es gratis, ya que el 8n8 igual solo es un mes, igual recuerda que sam tiene que ver su dashboard como el que me mandaste ela principio
-
-17:50
-Tienes toda la razón, me disculpo — he estado dando vueltas con soluciones que no son completamente gratuitas.
-
-Regresemos a lo importante. El dashboard que construimos al inicio ya funciona perfecto y tiene todo lo que Sam necesita. La conexión automática con Cal.com es un extra, pero no es indispensable para empezar.
-
-Lo que propongo es esto:
-
-Lo que ya tienes funcionando hoy:
-
-Cal.com con los 13 servicios configurados
-Google Sheets con las 3 hojas y fórmulas de ingresos
-El dashboard visual que hicimos
-Para el registro de citas — en lugar de webhook automático, Sam registra cada cita manualmente en Google Sheets directo. Son 30 segundos por cita y es completamente gratis para siempre.
-
-El dashboard lo mejoramos para que lea directamente de tu Google Sheets usando la API pública — también gratis para siempre.
-
-¿Quieres que nos enfoquemos en perfeccionar el dashboard para que Sam lo use desde su teléfono o iPad como la agenda principal? Eso sí lo puedo hacer sin depender de ningún servicio de pago.
-
-Lo que yo necesito es que desde que la persona agende se le refleje a sam en su dashdoard
-
-17:50
-Entiendo perfectamente. Para lograr eso sin pagar nada, la arquitectura más limpia es:
-
-Cal.com → Google Sheets → Dashboard
-
-El problema que tenemos es el paso 1 (Cal.com → Google Sheets) por el error 302.
-
-Pero hay una solución que no hemos probado — Google Apps Script como middleware usando una librería diferente. Cal.com acepta webhooks si la URL responde sin redirección.
-
-Antes de seguir dando vueltas, dime una cosa honesta:
-
-¿Sam va a usar el dashboard desde el navegador (chrome en iPad o celular) o quiere una app instalada en su teléfono?
-
-Porque si es desde el navegador, puedo construir el dashboard directamente conectado a Google Sheets sin necesitar webhook — Cal.com tiene una API pública gratuita que el dashboard puede consultar directamente cada vez que Sam lo abre, y se actualiza solo con las citas reales de Cal.com.
-
-El flujo sería:
-
-Cal.com API → Dashboard → Google Sheets
-Sin intermediarios, sin webhooks, sin servicios de pago. ¿Te parece?
-
-Pero necesitamos configurar el google sheets
-
-17:51
-Exacto. Y para eso necesitamos resolver el webhook sin costo.
-
-Hay una solución que no hemos intentado y es 100% gratis para siempre — Google Apps Script con una URL diferente.
-
-El error 302 pasa porque Apps Script redirige de https a otra URL interna. La solución es publicarlo de una manera específica.
-
-Dime — cuando publicaste el script, en "Quién tiene acceso" ¿qué opción exacta te apareció y cuál seleccionaste?
-
-"Cualquier persona"
-"Cualquier persona, incluso anónimos"
-"Solo yo"
-Porque dependiendo de la versión de Google que tengas, la opción correcta cambia y eso es exactamente lo que causa el 302. Si seleccionaste "Cualquier persona" en lugar de "Cualquier persona, incluso anónimos" — ese es el problema y se resuelve en 2 minutos.
-
-1780876375200_image.png
-acabo de ver que a pesar del error sigue apareciendo esto mira
-
-17:53
-¡Ya está funcionando! Los datos están llegando a Google Sheets perfectamente. El error 302 que muestra Cal.com es solo una advertencia visual — en realidad sí está enviando y tu script sí está recibiendo.
-
-Lo que ves es el test de Cal.com llegando con:
-
-Fecha ✓
-Hora ✓
-Nombre (John Doe es el nombre de prueba que usa Cal.com) ✓
-Servicio (Test trigger event) ✓
-Estatus Pendiente ✓
-Eso significa que cuando una clienta real agende, llegará con su nombre, servicio y hora reales.
-
-Ahora haz una prueba real:
-
-Abre tu página de Cal.com pública
-Agenda una cita de prueba tú misma con tu nombre y un servicio real
-Revisa si aparece en Google Sheets con todos los datos
-¿Lo intentamos?
-
-1780876485772_image.png
-si se guarda, pero la seccion de clientes esta vacia
-
-17:55
-¡Llegó! Veo Samantha Marrufo - Shot Vita... en la fila 8 con fecha y hora reales. El sistema está funcionando.
-
-El problema que ves es que Cal.com manda el estatus como ACCEPTED en inglés pero tu dropdown tiene las opciones en español. Lo arreglamos en el script.
-
-Y tienes razón — la sección de clientes está vacía porque el script aún no llena esa hoja automáticamente.
-
-Dos cosas a corregir:
-
-Corrección 1 — Estatus en español
-
-Regresa a Apps Script y en la línea donde dice:
-
-javascript
-var estatus = payload.status || 'Pendiente';
-Cámbiala por:
-
-javascript
-var statusMap = {'ACCEPTED': 'Confirmada', 'PENDING': 'Pendiente', 'CANCELLED': 'Cancelada', 'REJECTED': 'Cancelada'};
-var estatus = statusMap[payload.status] || 'Pendiente';
-Corrección 2 — Llenar hoja CLIENTES automáticamente
-
-Después de la línea:
-
-javascript
-sheet.appendRow([fecha, hora, nombre, whatsapp, servicio, precio, formaPago, estatus, notas, primeraVez]);
-Agrega esto:
-
-javascript
-var sheetClientes = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CLIENTES');
-var dataClientes = sheetClientes.getDataRange().getValues();
-var clienteExiste = false;
-for (var i = 1; i < dataClientes.length; i++) {
-  if (dataClientes[i][0] === nombre) {
-    sheetClientes.getRange(i+1, 4).setValue(fecha);
-    sheetClientes.getRange(i+1, 5).setValue(servicio);
-    clienteExiste = true;
-    break;
-  }
-}
-if (!clienteExiste) {
-  sheetClientes.appendRow([nombre, whatsapp, '', fecha, servicio, '', notas, '']);
-}
-Guarda → Administrar implementaciones → Nueva versión → Implementar.
-
-Esto hace que cada vez que llegue una cita nueva, si la clienta no existe en CLIENTES la agrega, y si ya existe actualiza su última cita. ¿Lo intentamos?
-
-Dame el codigo completo
-
-17:55
-Aquí está el código completo, borra todo lo que tienes y pega esto:
-
-javascript
-function doPost(e) {
-  try {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var sheetClientes = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CLIENTES');
-    
-    var data = JSON.parse(e.postData.contents);
-    var payload = data.payload || data;
-
-    var fecha = payload.startTime ? new Date(payload.startTime).toLocaleDateString('es-MX') : '';
-    var hora = payload.startTime ? new Date(payload.startTime).toLocaleTimeString('es-MX', {hour: '2-digit', minute:'2-digit'}) : '';
-    var nombre = payload.attendees && payload.attendees[0] ? payload.attendees[0].name : '';
-    var whatsapp = '';
-    var servicio = payload.title || '';
-    var precio = '';
-    var formaPago = '';
-    var notas = '';
-    var primeraVez = '';
-
-    var statusMap = {
-      'ACCEPTED': 'Confirmada',
-      'PENDING': 'Pendiente',
-      'CANCELLED': 'Cancelada',
-      'REJECTED': 'Cancelada'
-    };
-    var estatus = statusMap[payload.status] || 'Pendiente';
-
-    if (payload.responses) {
-      whatsapp = payload.responses.numeroDeWhatsApp || payload.responses.whatsapp || '';
-      notas = payload.responses.notasAdicionalesAlergias || payload.responses.notas || '';
-      primeraVez = payload.responses.esTuPrimeraVezConNosotras ? 'Sí' : 'No';
-    }
-
-    // Escribir en hoja CITAS
-    sheet.appendRow([fecha, hora, nombre, whatsapp, servicio, precio, formaPago, estatus, notas, primeraVez]);
-
-    // Escribir o actualizar en hoja CLIENTES
-    var dataClientes = sheetClientes.getDataRange().getValues();
-    var clienteExiste = false;
-
-    for (var i = 1; i < dataClientes.length; i++) {
-      if (dataClientes[i][0] === nombre) {
-        sheetClientes.getRange(i+1, 4).setValue(fecha);
-        sheetClientes.getRange(i+1, 5).setValue(servicio);
-        if (whatsapp) sheetClientes.getRange(i+1, 2).setValue(whatsapp);
-        clienteExiste = true;
-        break;
-      }
-    }
-
-    if (!clienteExiste && nombre) {
-      sheetClientes.appendRow([nombre, whatsapp, '', fecha, servicio, '', notas, '']);
-    }
-
-    var output = ContentService.createTextOutput(JSON.stringify({status: 'ok'}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-
-  } catch(err) {
-    var output = ContentService.createTextOutput(JSON.stringify({status: 'error', message: err.message}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-  }
-}
-
-function doGet(e) {
-  return ContentService.createTextOutput(JSON.stringify({status: 'ok', message: 'Webhook Sam Beauty activo'})).setMimeType(ContentService.MimeType.JSON);
-}
-Cuando lo pegues:
-
-Ctrl + S para guardar
-Implementar → Administrar implementaciones
-Clic en el lápiz ✏️
-Versión → Nueva versión
-Implementar
-Luego haz otra cita de prueba en Cal.com y dime qué aparece en ambas hojas.
-
-1780876633678_image.png
-1780876642339_image.png
-1780876659209_image.png
-Listo ya se guarda, a excepcion de ingresos, necesitamos perfeccionar ese codigo
-
-17:58
-¡Excelente, está funcionando perfectamente! Veo:
-
-CLIENTES ✓ — Samantha Marrufo registrada con última cita y servicio
-CITAS ✓ — la segunda cita ya dice "Confir..." en verde ✓
-INGRESOS — muestra 0 porque la columna Precio está vacía en las citas de prueba
-El problema de INGRESOS es que el precio no está llegando de Cal.com — tiene sentido porque en Cal.com no hay un campo de precio fijo, tú lo defines al confirmar.
-
-La solución es agregar el precio manualmente en la columna F de CITAS cuando confirmas cada cita, y las fórmulas de INGRESOS lo suman automáticamente.
-
-Pero las fórmulas necesitan ajuste porque la fecha de hoy es 8/6/2026 y están buscando en 7/6/2026. Corrígelas así:
-
-En INGRESOS, borra lo que tienes y pon:
-
-A2:
-
-=HOY()
-B2:
-
-=SUMAR.SI(CITAS!A:A,HOY(),CITAS!F:F)
-C2:
-
-=SUMARSI.CONJUNTO(CITAS!F:F,CITAS!A:A,">="&(HOY()-DIASEM(HOY(),2)+1),CITAS!A:A,"<="&(HOY()-DIASEM(HOY(),2)+7))
-D2:
-
-=SUMARSI.CONJUNTO(CITAS!F:F,CITAS!A:A,">="&FECHA(AÑO(HOY()),MES(HOY()),1),CITAS!A:A,"<="&FIN.MES(HOY(),0))
-Prueba escribiendo un precio en la columna F de una cita de hoy y dime si se suma en INGRESOS. ¿Lo intentamos?
-
-Pero en cal si puedo poner los precios
-
-17:58
-Tienes razón, en Cal.com sí puedes poner precios. Ve a cada event type y en la pestaña Basics baja hasta encontrar la sección Price o Payments.
-
-Pero hay algo importante — Cal.com en el plan gratuito no procesa pagos, solo los muestra como referencia. El precio sí llega en el webhook pero en un campo diferente.
-
-Vamos a hacer dos cosas:
-
-Primero — agrega el precio en Cal.com:
-
-Entra a cada event type
-En Basics baja hasta Price
-Escribe el precio en pesos
-Guarda
-Segundo — actualizo el script para capturar ese precio:
-
-En Apps Script busca esta línea:
-
-javascript
-var precio = '';
-Cámbiala por:
-
-javascript
-var precio = payload.price || payload.amount || '';
-if (payload.metadata && payload.metadata.price) precio = payload.metadata.price;
-Guarda → Nueva versión → Implementar.
-
-Luego haz una cita de prueba y dime si aparece el precio en la columna F de CITAS. Si no llega, me mandas el contenido exacto del webhook y lo identificamos.
-
-¿Ves la sección Price en Basics de tus event types?
-
-Puedo poner precios, pero recuerda que me diste todo en cal y hay variaciones, ayudame a configurarlo bien, ya que en cada servicio hay opcines
-
-17:59
-Tienes razón. El precio no puede ser fijo en Cal.com porque depende de lo que elija la clienta en el dropdown. Por ejemplo en Pestañas Nueva puede elegir Clásicas ($650) o Clásicas Pro ($780).
-
-La solución más limpia es manejar el precio desde el script — cuando llegue la respuesta del dropdown, el script detecta qué eligió y asigna el precio correcto automáticamente.
-
-Actualiza el script con este código completo:
-
-javascript
-function doPost(e) {
-  try {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var sheetClientes = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CLIENTES');
-
-    var data = JSON.parse(e.postData.contents);
-    var payload = data.payload || data;
-
-    var fecha = payload.startTime ? new Date(payload.startTime).toLocaleDateString('es-MX') : '';
-    var hora = payload.startTime ? new Date(payload.startTime).toLocaleTimeString('es-MX', {hour: '2-digit', minute:'2-digit'}) : '';
-    var nombre = payload.attendees && payload.attendees[0] ? payload.attendees[0].name : '';
-    var whatsapp = '';
-    var servicio = payload.title || '';
-    var precio = '';
-    var formaPago = '';
-    var notas = '';
-    var primeraVez = '';
-
-    var statusMap = {
-      'ACCEPTED': 'Confirmada',
-      'PENDING': 'Pendiente',
-      'CANCELLED': 'Cancelada',
-      'REJECTED': 'Cancelada'
-    };
-    var estatus = statusMap[payload.status] || 'Pendiente';
-
-    if (payload.responses) {
-      whatsapp = payload.responses.numeroDeWhatsApp || payload.responses.whatsapp || '';
-      notas = payload.responses.notasAdicionalesAlergias || payload.responses.notas || '';
-      primeraVez = payload.responses.esTuPrimeraVezConNosotras ? 'Sí' : 'No';
-
-      // Detectar precio según lo que eligió la clienta
-      var tipoExtension = payload.responses.tipoExtensiones || '';
-      var tipoEstilo = payload.responses.tipoEstilo || '';
-      var tipoRetoque15 = payload.responses.tipoRetoque15 || '';
-      var tipoRetoque20 = payload.responses.tipoRetoque20 || '';
-      var tipoCejas = payload.responses.tipoCejas || '';
-      var tipoDepilacion = payload.responses.tipoDepilacion || '';
-
-      // Tabla de precios por opción elegida
-      var precios = {
-        // Pestañas nueva
-        'Clásicas — $650': 650,
-        'Clásicas Cafés — $650': 650,
-        'Clásicas Pro — $780': 780,
-        'Híbridas — $680': 680,
-        // Efectos y volumen
-        'Efecto Mojado — $780': 780,
-        'Efecto Mojado Cafés — $780': 780,
-        'Wispy — $780': 780,
-        'Manga / Anime — $780': 780,
-        'Volumen Tec 2D/3D — $750': 750,
-        'Volumen Tec 4D/5D — $750': 750,
-        'MegaVolumen Tec — $950': 950,
-        // Retoque 15 días
-        'Natural / Clásicas — $450': 450,
-        'Clásicas Pro / Híbridas — $450': 450,
-        'Efectos / Volumen Tec — $470': 470,
-        'MegaVolumen — $500': 500,
-        // Retoque 20 días
-        'Natural / Clásicas — $500': 500,
-        'Clásicas Pro / Híbridas — $500': 500,
-        'Efectos / Volumen Tec — $500': 500,
-        'MegaVolumen — $600': 600
-      };
-
-      // Precios fijos por servicio
-      var preciosFijos = {
-        'Lash Lifting': 450,
-        'Lash Combo': 650,
-        'Retiro de extensiones': 140,
-        'Brow Art — Diseño de cejas': 250,
-        'Lami Brows': 450,
-        'Brow Tint — Tinte de cejas': 400,
-        'Full Brows': 470,
-        'Shot de Vitamina — Reparación de pestañas': 500
-      };
-
-      // Primero busca por opción elegida en dropdown
-      var opcionElegida = tipoExtension || tipoEstilo || tipoRetoque15 || tipoRetoque20 || tipoCejas;
-      if (opcionElegida && precios[opcionElegida]) {
-        precio = precios[opcionElegida];
-      } else {
-        // Si no hay dropdown, busca precio fijo por nombre de servicio
-        for (var key in preciosFijos) {
-          if (servicio.indexOf(key) !== -1) {
-            precio = preciosFijos[key];
-            break;
-          }
-        }
-      }
-
-      // Keratina no tiene precio fijo
-      if (servicio.indexOf('Keratina') !== -1) {
-        precio = 'A valorar';
-      }
-
-      // Agregar $100 si eligió color o glitter
-      var colorGlitter = payload.responses.quieresEfectoDeColorOGlitter || '';
-      if (colorGlitter && precio && precio !== 'A valorar') {
-        precio = precio + 100;
-      }
-    }
-
-    // Escribir en hoja CITAS
-    sheet.appendRow([fecha, hora, nombre, whatsapp, servicio, precio, formaPago, estatus, notas, primeraVez]);
-
-    // Escribir o actualizar en hoja CLIENTES
-    var dataClientes = sheetClientes.getDataRange().getValues();
-    var clienteExiste = false;
-
-    for (var i = 1; i < dataClientes.length; i++) {
-      if (dataClientes[i][0] === nombre) {
-        sheetClientes.getRange(i+1, 4).setValue(fecha);
-        sheetClientes.getRange(i+1, 5).setValue(servicio);
-        if (whatsapp) sheetClientes.getRange(i+1, 2).setValue(whatsapp);
-        clienteExiste = true;
-        break;
-      }
-    }
-
-    if (!clienteExiste && nombre) {
-      sheetClientes.appendRow([nombre, whatsapp, '', fecha, servicio, '', notas, '']);
-    }
-
-    var output = ContentService.createTextOutput(JSON.stringify({status: 'ok'}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-
-  } catch(err) {
-    var output = ContentService.createTextOutput(JSON.stringify({status: 'error', message: err.message}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-  }
-}
-
-function doGet(e) {
-  return ContentService.createTextOutput(JSON.stringify({status: 'ok', message: 'Webhook Sam Beauty activo'})).setMimeType(ContentService.MimeType.JSON);
-}
-Guarda → Administrar implementaciones → lápiz → Nueva versión → Implementar.
-
-Luego haz una cita de prueba real en Cal.com eligiendo un tipo de extensión del dropdown y dime qué precio aparece en la columna F. ¿Lo intentamos?
-
-Ahora no pasó nada
-
-18:02
-Necesito ver qué está fallando exactamente. Vamos a agregar un log para detectar el error.
-
-En Apps Script, en el menú superior da clic en Registro de ejecución (o Execution log) — ¿qué aparece ahí después de hacer el ping test en Cal.com?
-
-Si no aparece nada, el problema es que Cal.com no está llegando al script. Dime:
-
-¿El webhook en Cal.com sigue activo con la misma URL?
-Cuando haces Ping test en Cal.com, ¿sigue marcando Failed o ahora dice algo diferente?
-Acaba de aparecer, pero entra al link y verificalo
-
-18:03
-No puedo acceder directamente a tu Google Sheets porque requiere tu sesión de Google iniciada.
-
-Pero dime — ¿qué apareció exactamente? ¿Una fila nueva en CITAS con precio o sin precio?
-
-Y cuéntame qué servicio y qué opción del dropdown elegiste en la cita de prueba para verificar si el precio que llegó es el correcto.
-
-Pero hhace rato si viste mi archuvo
-
-18:03
-Tienes razón, antes sí pude verlo porque estaba en modo público. Pero ahorita cuando intenté entrar me pide iniciar sesión.
-
-Para que pueda verlo necesito que lo pongas en modo público:
-
-Abre tu Google Sheets
-Clic en Compartir (arriba a la derecha)
-En "Acceso general" cambia a Cualquier persona con el enlace
-Rol: Lector
-Copias el link y me lo mandas
-O simplemente dime qué ves en la hoja CITAS — ¿llegó una fila nueva? ¿Tiene precio en la columna F o está vacía?
-
-Listohttps://docs.google.com/spreadsheets/d/14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc/edit?usp=sharing
-
-18:04
-
-Fetched: Sam Beauty — Sistema
-Fetched: Sam Beauty — Sistema
-La hoja aparece vacía desde mi lado — Google no me deja ver el contenido real porque requiere JavaScript que yo no puedo ejecutar. Solo veo la estructura vacía.
-
-Necesito que tú me digas lo que ves. Dime:
-
-En la hoja CITAS: ¿Llegó alguna fila nueva después de la última prueba? ¿Qué dice en las columnas, especialmente en Servicio (E) y Precio (F)?
-
-En Apps Script: Ve a Registro de ejecución — ¿ves algún error en rojo o dice status: ok?
-
-Con eso identifico exactamente qué está fallando.
-
-1780877115907_image.png
-18:05
-Veo tres cosas importantes:
-
-Lo que funciona bien:
-
-Las citas están llegando ✓
-Samantha Marrufo aparece con fecha y hora ✓
-La última cita (9/6/2026) ya dice "Confir..." en verde ✓
-Lo que necesita arreglo:
-
-La columna Precio está vacía en todas
-El servicio muestra Shot Vitamina · Samantha Marruf — está pegando el nombre de la clienta al servicio, eso está mal
-Una fila sigue con ACCE... en inglés
-El problema del servicio es que Cal.com manda el título del evento como Shot Vitamina · {nombre} porque así lo configuramos en el Calendar event name. Necesito que vayas a cada event type en Cal.com → pestaña Confirmation → Calendar event name → clic en Edit y déjalo solo como:
-
-{Event type title}
-
-Sin el · {Scheduler} — ese nombre era solo para tu Google Calendar personal, no para la hoja.
-
-Para el precio, necesito saber exactamente cómo Cal.com está mandando las respuestas. Ve a Apps Script → Registro de ejecución → abre el último registro y busca el contenido del payload. ¿Ves algo ahí o está vacío?
-
-Dime el nombre de cada event type
-
-18:06
-Aquí están, cópialos exactamente así en el campo Calendar event name de cada uno:
-
-Pestañas — Aplicación Nueva → {Event type title}
-Pestañas — Efectos & Volumen → {Event type title}
-Pestañas — Retoque 15 días → {Event type title}
-Pestañas — Retoque 20 días → {Event type title}
-Retiro de extensiones → {Event type title}
-Lash Combo → {Event type title}
-Lash Lifting → {Event type title}
-Brow Art — Diseño de cejas → {Event type title}
-Lami Brows → {Event type title}
-Brow Tint — Tinte de cejas → {Event type title}
-Full Brows → {Event type title}
-Keratina → {Event type title}
-Shot de Vitamina — Reparación de pestañas → {Event type title}
-En todos es exactamente lo mismo: {Event type title}
-
-Esto hace que en tu Google Sheets aparezca el nombre limpio del servicio sin el nombre de la clienta pegado.
-
-Entra a cada uno → Confirmation → Calendar event name → Edit → borra lo que tiene → escribe {Event type title} → Save.
-
-¿Quieres que mientras haces eso yo vaya preparando el fix del precio?
-
-Si
-
-18:10
-Perfecto, mientras haces eso voy a preparar el fix del precio.
-
-El problema es que no sabemos exactamente cómo Cal.com nombra las respuestas del formulario en el webhook — cada plataforma lo manda diferente. Necesito ver el payload real.
-
-Agrega esta función temporal al script para capturar exactamente lo que manda Cal.com. Borra todo y pega esto:
-
-javascript
-function doPost(e) {
-  try {
-    var sheetLog = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var data = JSON.parse(e.postData.contents);
-    
-    // Guardar el payload completo para ver qué manda Cal.com
-    sheetLog.appendRow([new Date(), JSON.stringify(data)]);
-    
-    var output = ContentService.createTextOutput(JSON.stringify({status: 'ok'}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-
-  } catch(err) {
-    var output = ContentService.createTextOutput(JSON.stringify({status: 'error', message: err.message}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-  }
-}
-
-function doGet(e) {
-  return ContentService.createTextOutput(JSON.stringify({status: 'ok'})).setMimeType(ContentService.MimeType.JSON);
-}
-Guarda → Nueva versión → Implementar.
-
-Luego agenda una cita de prueba real en Cal.com eligiendo una opción del dropdown — por ejemplo Pestañas Nueva y selecciona "Clásicas — $650".
-
-Cuando llegue, en la hoja CITAS va a aparecer una fila con todo el JSON que manda Cal.com. Cópiame ese texto y con eso arreglo el precio exactamente. ¿Listo?
-
-{"triggerEvent":"BOOKING_CREATED","createdAt":"2026-06-08T00:12:40.917Z","payload":{"bookerUrl":"https://cal.com","title":"Pestañas — Aplicación Nueva","startTime":"2026-06-08T21:00:00.000Z","endTime":"2026-06-08T23:00:00.000Z","additionalNotes":"","type":"pestanas-aplicacion-nueva","description":"Primera vez o aplicación completa de extensiones. El precio varía según el tipo que elijas.","eventTypeId":5929510,"hideCalendarNotes":false,"hideCalendarEventDetails":false,"hideOrganizerEmail":false,"schedulingType":null,"seatsPerTimeSlot":null,"seatsShowAttendees":true,"seatsShowAvailabilityCount":true,"customReplyToEmail":null,"disableRescheduling":false,"disableReschedulingScope":"HOST_AND_ATTENDEE","disableCancelling":false,"disableCancellingScope":"HOST_AND_ATTENDEE","organizer":{"id":2466711,"name":"Samanta Beauty","email":"citas.samantha@gmail.com","username":"estudiosamanta","timeZone":"America/Mexico_City","language":{"locale":"en"},"timeFormat":"h:mma","utcOffset":-360},"attendees":[{"name":"Samantha Marrufo","email":"citas.samantha@gmail.com","timeZone":"America/Mexico_City","language":{"locale":"en"},"phoneNumber":"+529991321711","bookingSeat":null,"utcOffset":-360,"firstName":"Samantha","lastName":"Marrufo"}],"customInputs":{},"responses":{"name":{"label":"your_name","value":{"lastName":"Marrufo","firstName":"Samantha"},"isHidden":false},"tipoExtensiones":{"label":"¿Qué tipo de extensiones quieres?","value":"Clásicas — $650","isHidden":false},"email":{"label":"email_address","value":"citas.samantha@gmail.com","isHidden":false},"attendeePhoneNumber":{"label":"Número de WhatsApp","value":"+529991321711","isHidden":false},"location":{"label":"location","value":{"value":"inPerson","optionValue":""},"isHidden":false},"notes":{"label":"Notas adicionales / alergias","isHidden":false},"title":{"label":"what_is_this_meeting_about","isHidden":true},"-Es-tu-primera-vez-con-nosotras":{"label":"¿Es tu primera vez con nosotras?","value":true,"isHidden":false},"guests":{"label":"additional_guests","value":[],"isHidden":true},"rescheduleReason":{"label":"reason_for_reschedule","isHidden":true}},"userFieldsResponses":{"tipoExtensiones":{"label":"¿Qué tipo de extensiones quieres?","value":"Clásicas — $650","isHidden":false},"-Es-tu-primera-vez-con-nosotras":{"label":"¿Es tu primera vez con nosotras?","value":true,"isHidden":false}},"location":"Calle 17 B 105H, 97205 Chuburná de Hidalgo, Mérida, Yucatán","iCalUID":"vZgjafdBwdzRkPHmVFVztq@Cal.com","iCalSequence":0,"requiresConfirmation":false,"oneTimePassword":null,"platformClientId":"","platformRescheduleUrl":"","platformCancelUrl":"","platformBookingUrl":"","uid":"vZgjafdBwdzRkPHmVFVztq","organizationId":null,"hashedLink":null,"cancellationReason":null,"rejectionReason":null,"hideBranding":false,"appsStatus":[{"appName":"Google Calendar","type":"google_calendar","success":1,"failures":0,"errors":[]}],"destinationCalendar":[{"id":1301543,"integration":"google_calendar","externalId":"citas.samantha@gmail.com","primaryEmail":"citas.samantha@gmail.com","userId":2466711,"credentialId":2104905}],"bookingId":20599188,"status":"ACCEPTED","eventTitle":"Pestañas — Aplicación Nueva","eventDescription":"Primera vez o aplicación completa de extensiones. El precio varía según el tipo que elijas.","price":0,"currency":"usd","length":120,"assignmentReason":[],"metadata":{}}}
-
-Mostrar más
-18:13
-Perfecto, ya veo exactamente cómo manda Cal.com los datos. Ahora sé los nombres exactos de cada campo. Aquí el código completo y corregido:
-
-javascript
-function doPost(e) {
-  try {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var sheetClientes = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CLIENTES');
-
-    var data = JSON.parse(e.postData.contents);
-    var payload = data.payload || data;
-
-    // Fecha y hora
-    var fecha = payload.startTime ? new Date(payload.startTime).toLocaleDateString('es-MX') : '';
-    var hora = payload.startTime ? new Date(payload.startTime).toLocaleTimeString('es-MX', {hour: '2-digit', minute:'2-digit'}) : '';
-
-    // Nombre y datos de la clienta
-    var nombre = '';
-    var whatsapp = '';
-    if (payload.attendees && payload.attendees[0]) {
-      nombre = (payload.attendees[0].firstName || '') + ' ' + (payload.attendees[0].lastName || '');
-      nombre = nombre.trim();
-    }
-
-    // Servicio — usar eventTitle que es el nombre limpio
-    var servicio = payload.eventTitle || payload.title || '';
-
-    // Estatus
-    var statusMap = {
-      'ACCEPTED': 'Confirmada',
-      'PENDING': 'Pendiente',
-      'CANCELLED': 'Cancelada',
-      'REJECTED': 'Cancelada'
-    };
-    var estatus = statusMap[payload.status] || 'Pendiente';
-
-    // Respuestas del formulario
-    var notas = '';
-    var primeraVez = '';
-    var precio = '';
-
-    if (payload.responses) {
-      // WhatsApp
-      whatsapp = payload.responses.attendeePhoneNumber ? payload.responses.attendeePhoneNumber.value || '' : '';
-
-      // Notas
-      notas = payload.responses.notes ? payload.responses.notes.value || '' : '';
-
-      // Primera vez
-      var pvKey = '-Es-tu-primera-vez-con-nosotras';
-      primeraVez = payload.responses[pvKey] ? (payload.responses[pvKey].value ? 'Sí' : 'No') : '';
-
-      // Precio según tipo elegido
-      var precios = {
-        'Clásicas — $650': 650,
-        'Clásicas Cafés — $650': 650,
-        'Clásicas Pro — $780': 780,
-        'Híbridas — $680': 680,
-        'Efecto Mojado — $780': 780,
-        'Efecto Mojado Cafés — $780': 780,
-        'Wispy — $780': 780,
-        'Manga / Anime — $780': 780,
-        'Volumen Tec 2D/3D — $750': 750,
-        'Volumen Tec 4D/5D — $750': 750,
-        'MegaVolumen Tec — $950': 950,
-        'Natural / Clásicas — $450': 450,
-        'Clásicas Pro / Híbridas — $450': 450,
-        'Efectos / Volumen Tec — $470': 470,
-        'MegaVolumen — $500': 500,
-        'Natural / Clásicas — $500': 500,
-        'Clásicas Pro / Híbridas — $500': 500,
-        'Efectos / Volumen Tec — $500': 500,
-        'MegaVolumen — $600': 600
-      };
-
-      // Buscar precio por dropdown
-      var tipoExtensiones = payload.responses.tipoExtensiones ? payload.responses.tipoExtensiones.value || '' : '';
-      var tipoEstilo = payload.responses.tipoEstilo ? payload.responses.tipoEstilo.value || '' : '';
-      var tipoRetoque = payload.responses.tipoRetoque ? payload.responses.tipoRetoque.value || '' : '';
-      var tipoCejas = payload.responses.tipoCejas ? payload.responses.tipoCejas.value || '' : '';
-      var tipoDepilacion = payload.responses.tipoDepilacion ? payload.responses.tipoDepilacion.value || '' : '';
-
-      var opcionElegida = tipoExtensiones || tipoEstilo || tipoRetoque || tipoCejas;
-
-      if (opcionElegida && precios[opcionElegida]) {
-        precio = precios[opcionElegida];
-      }
-
-      // Precios fijos por servicio si no hay dropdown
-      if (!precio) {
-        var preciosFijos = {
-          'Lash Lifting': 450,
-          'Lash Combo': 650,
-          'Retiro de extensiones': 140,
-          'Brow Art — Diseño de cejas': 250,
-          'Lami Brows': 450,
-          'Brow Tint — Tinte de cejas': 400,
-          'Full Brows': 470,
-          'Shot de Vitamina — Reparación de pestañas': 500
-        };
-        for (var key in preciosFijos) {
-          if (servicio.indexOf(key) !== -1) {
-            precio = preciosFijos[key];
-            break;
-          }
-        }
-      }
-
-      // Keratina sin precio fijo
-      if (servicio.indexOf('Keratina') !== -1) {
-        precio = 'A valorar';
-      }
-
-      // Glitter o color +$100
-      var colorGlitter = payload.responses.quieresEfectoDeColorOGlitter ? payload.responses.quieresEfectoDeColorOGlitter.value : false;
-      if (colorGlitter && precio && precio !== 'A valorar') {
-        precio = Number(precio) + 100;
-      }
-    }
-
-    // Escribir en CITAS
-    sheet.appendRow([fecha, hora, nombre, whatsapp, servicio, precio, '', estatus, notas, primeraVez]);
-
-    // Escribir o actualizar en CLIENTES
-    var dataClientes = sheetClientes.getDataRange().getValues();
-    var clienteExiste = false;
-
-    for (var i = 1; i < dataClientes.length; i++) {
-      if (dataClientes[i][0] === nombre) {
-        sheetClientes.getRange(i+1, 4).setValue(fecha);
-        sheetClientes.getRange(i+1, 5).setValue(servicio);
-        if (whatsapp) sheetClientes.getRange(i+1, 2).setValue(whatsapp);
-        clienteExiste = true;
-        break;
-      }
-    }
-
-    if (!clienteExiste && nombre) {
-      sheetClientes.appendRow([nombre, whatsapp, '', fecha, servicio, '', notas, '']);
-    }
-
-    var output = ContentService.createTextOutput(JSON.stringify({status: 'ok'}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-
-  } catch(err) {
-    var output = ContentService.createTextOutput(JSON.stringify({status: 'error', message: err.message}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-  }
-}
-
-function doGet(e) {
-  return ContentService.createTextOutput(JSON.stringify({status: 'ok', message: 'Webhook Sam Beauty activo'})).setMimeType(ContentService.MimeType.JSON);
-}
-Guarda → Nueva versión → Implementar.
-
-Luego haz una cita de prueba eligiendo "Clásicas — $650" del dropdown y dime si aparece el precio 650 en la columna F. ¿Listo?
-
-Ya aparece
-
-18:16
-¡Perfecto! El sistema está funcionando completo. Revisemos qué tenemos listo:
-
-Lo que ya funciona:
-
-Cal.com con 13 servicios configurados ✓
-Webhook conectado a Google Sheets ✓
-Citas llegan automáticamente con nombre, hora, servicio y precio ✓
-Precio se detecta según lo que elige la clienta en el dropdown ✓
-Hoja CLIENTES se actualiza sola ✓
-Estatus en español ✓
-Siguiente paso — conectar el dashboard
-
-El dashboard que hicimos al inicio lo vamos a actualizar para que lea directamente de tu Google Sheets en tiempo real. Así Sam abre el dashboard y ve todas sus citas del día, ingresos y clientas sin hacer nada manual.
-
-Para eso necesito que en tu Google Sheets hagas una cosa:
-
-Ve a Extensiones → Apps Script
-Clic en el ícono de engranaje ⚙️ (Configuración del proyecto)
-Activa la opción "Mostrar el archivo de manifiesto appsscript.json"
-Dime el ID del script — está en esa misma página de configuración, se ve así: 1BxxxxxxxxxxxxxxxAAAAA
-Con ese ID conecto el dashboard directo a tu hoja. ¿Lo ves?
-
-Es la que dice secuencia de comandos?
-
-18:18
-Sí, exacto — esa es. Cópiame el número que aparece ahí, es una cadena larga de letras y números.
-
-1UZhMvUwi-g7gwBkhf1GQqgeOpJv--GSxyq5SuqJkAbhV23EWonBwK7dL
-
-18:18
-Perfecto. Ahora vamos a agregar una función al script que permita al dashboard leer los datos de tu hoja. Agrega esto al final de tu código en Apps Script, después de la función doGet:
-
-javascript
-function doGet(e) {
-  var action = e.parameter.action;
-  
-  if (action === 'getCitas') {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var data = sheet.getDataRange().getValues();
-    var headers = data[0];
-    var rows = [];
-    for (var i = 1; i < data.length; i++) {
-      if (data[i][0]) {
-        rows.push({
-          fecha: data[i][0],
-          hora: data[i][1],
-          nombre: data[i][2],
-          whatsapp: data[i][3],
-          servicio: data[i][4],
-          precio: data[i][5],
-          formaPago: data[i][6],
-          estatus: data[i][7],
-          notas: data[i][8],
-          primeraVez: data[i][9]
-        });
-      }
-    }
-    return ContentService.createTextOutput(JSON.stringify({status: 'ok', data: rows})).setMimeType(ContentService.MimeType.JSON);
-  }
-
-  if (action === 'getClientes') {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CLIENTES');
-    var data = sheet.getDataRange().getValues();
-    var rows = [];
-    for (var i = 1; i < data.length; i++) {
-      if (data[i][0]) {
-        rows.push({
-          nombre: data[i][0],
-          whatsapp: data[i][1],
-          cumpleanos: data[i][2],
-          ultimaCita: data[i][3],
-          ultimoServicio: data[i][4],
-          historialMedico: data[i][5],
-          notas: data[i][6],
-          fotos: data[i][7]
-        });
-      }
-    }
-    return ContentService.createTextOutput(JSON.stringify({status: 'ok', data: rows})).setMimeType(ContentService.MimeType.JSON);
-  }
-
-  return ContentService.createTextOutput(JSON.stringify({status: 'ok', message: 'Webhook Sam Beauty activo'})).setMimeType(ContentService.MimeType.JSON);
-}
-Importante — esto reemplaza completamente tu función doGet actual. Borra la que tienes y pon esta.
-
-Guarda → Nueva versión → Implementar.
-
-Dime cuando esté listo y construyo el dashboard conectado a tus datos reales.
-
-Mejor dame el codigo completo{}
-
-18:18
-Aquí está el código completo:
-
-javascript
-function doPost(e) {
-  try {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var sheetClientes = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CLIENTES');
-
-    var data = JSON.parse(e.postData.contents);
-    var payload = data.payload || data;
-
-    var fecha = payload.startTime ? new Date(payload.startTime).toLocaleDateString('es-MX') : '';
-    var hora = payload.startTime ? new Date(payload.startTime).toLocaleTimeString('es-MX', {hour: '2-digit', minute:'2-digit'}) : '';
-
-    var nombre = '';
-    var whatsapp = '';
-    if (payload.attendees && payload.attendees[0]) {
-      nombre = (payload.attendees[0].firstName || '') + ' ' + (payload.attendees[0].lastName || '');
-      nombre = nombre.trim();
-    }
-
-    var servicio = payload.eventTitle || payload.title || '';
-
-    var statusMap = {
-      'ACCEPTED': 'Confirmada',
-      'PENDING': 'Pendiente',
-      'CANCELLED': 'Cancelada',
-      'REJECTED': 'Cancelada'
-    };
-    var estatus = statusMap[payload.status] || 'Pendiente';
-
-    var notas = '';
-    var primeraVez = '';
-    var precio = '';
-
-    if (payload.responses) {
-      whatsapp = payload.responses.attendeePhoneNumber ? payload.responses.attendeePhoneNumber.value || '' : '';
-      notas = payload.responses.notes ? payload.responses.notes.value || '' : '';
-
-      var pvKey = '-Es-tu-primera-vez-con-nosotras';
-      primeraVez = payload.responses[pvKey] ? (payload.responses[pvKey].value ? 'Sí' : 'No') : '';
-
-      var precios = {
-        'Clásicas — $650': 650,
-        'Clásicas Cafés — $650': 650,
-        'Clásicas Pro — $780': 780,
-        'Híbridas — $680': 680,
-        'Efecto Mojado — $780': 780,
-        'Efecto Mojado Cafés — $780': 780,
-        'Wispy — $780': 780,
-        'Manga / Anime — $780': 780,
-        'Volumen Tec 2D/3D — $750': 750,
-        'Volumen Tec 4D/5D — $750': 750,
-        'MegaVolumen Tec — $950': 950,
-        'Natural / Clásicas — $450': 450,
-        'Clásicas Pro / Híbridas — $450': 450,
-        'Efectos / Volumen Tec — $470': 470,
-        'MegaVolumen — $500': 500,
-        'Natural / Clásicas — $500': 500,
-        'Clásicas Pro / Híbridas — $500': 500,
-        'Efectos / Volumen Tec — $500': 500,
-        'MegaVolumen — $600': 600
-      };
-
-      var tipoExtensiones = payload.responses.tipoExtensiones ? payload.responses.tipoExtensiones.value || '' : '';
-      var tipoEstilo = payload.responses.tipoEstilo ? payload.responses.tipoEstilo.value || '' : '';
-      var tipoRetoque = payload.responses.tipoRetoque ? payload.responses.tipoRetoque.value || '' : '';
-      var tipoCejas = payload.responses.tipoCejas ? payload.responses.tipoCejas.value || '' : '';
-
-      var opcionElegida = tipoExtensiones || tipoEstilo || tipoRetoque || tipoCejas;
-
-      if (opcionElegida && precios[opcionElegida]) {
-        precio = precios[opcionElegida];
-      }
-
-      if (!precio) {
-        var preciosFijos = {
-          'Lash Lifting': 450,
-          'Lash Combo': 650,
-          'Retiro de extensiones': 140,
-          'Brow Art — Diseño de cejas': 250,
-          'Lami Brows': 450,
-          'Brow Tint — Tinte de cejas': 400,
-          'Full Brows': 470,
-          'Shot de Vitamina — Reparación de pestañas': 500
-        };
-        for (var key in preciosFijos) {
-          if (servicio.indexOf(key) !== -1) {
-            precio = preciosFijos[key];
-            break;
-          }
-        }
-      }
-
-      if (servicio.indexOf('Keratina') !== -1) {
-        precio = 'A valorar';
-      }
-
-      var colorGlitter = payload.responses.quieresEfectoDeColorOGlitter ? payload.responses.quieresEfectoDeColorOGlitter.value : false;
-      if (colorGlitter && precio && precio !== 'A valorar') {
-        precio = Number(precio) + 100;
-      }
-    }
-
-    sheet.appendRow([fecha, hora, nombre, whatsapp, servicio, precio, '', estatus, notas, primeraVez]);
-
-    var dataClientes = sheetClientes.getDataRange().getValues();
-    var clienteExiste = false;
-
-    for (var i = 1; i < dataClientes.length; i++) {
-      if (dataClientes[i][0] === nombre) {
-        sheetClientes.getRange(i+1, 4).setValue(fecha);
-        sheetClientes.getRange(i+1, 5).setValue(servicio);
-        if (whatsapp) sheetClientes.getRange(i+1, 2).setValue(whatsapp);
-        clienteExiste = true;
-        break;
-      }
-    }
-
-    if (!clienteExiste && nombre) {
-      sheetClientes.appendRow([nombre, whatsapp, '', fecha, servicio, '', notas, '']);
-    }
-
-    var output = ContentService.createTextOutput(JSON.stringify({status: 'ok'}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-
-  } catch(err) {
-    var output = ContentService.createTextOutput(JSON.stringify({status: 'error', message: err.message}));
-    output.setMimeType(ContentService.MimeType.JSON);
-    return output;
-  }
-}
-
-function doGet(e) {
-  var action = e.parameter.action;
-
-  if (action === 'getCitas') {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var data = sheet.getDataRange().getValues();
-    var rows = [];
-    for (var i = 1; i < data.length; i++) {
-      if (data[i][0]) {
-        rows.push({
-          fecha: data[i][0],
-          hora: data[i][1],
-          nombre: data[i][2],
-          whatsapp: data[i][3],
-          servicio: data[i][4],
-          precio: data[i][5],
-          formaPago: data[i][6],
-          estatus: data[i][7],
-          notas: data[i][8],
-          primeraVez: data[i][9]
-        });
-      }
-    }
-    return ContentService.createTextOutput(JSON.stringify({status: 'ok', data: rows})).setMimeType(ContentService.MimeType.JSON);
-  }
-
-  if (action === 'getClientes') {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CLIENTES');
-    var data = sheet.getDataRange().getValues();
-    var rows = [];
-    for (var i = 1; i < data.length; i++) {
-      if (data[i][0]) {
-        rows.push({
-          nombre: data[i][0],
-          whatsapp: data[i][1],
-          cumpleanos: data[i][2],
-          ultimaCita: data[i][3],
-          ultimoServicio: data[i][4],
-          historialMedico: data[i][5],
-          notas: data[i][6],
-          fotos: data[i][7]
-        });
-      }
-    }
-    return ContentService.createTextOutput(JSON.stringify({status: 'ok', data: rows})).setMimeType(ContentService.MimeType.JSON);
-  }
-
-  return ContentService.createTextOutput(JSON.stringify({status: 'ok', message: 'Webhook Sam Beauty activo'})).setMimeType(ContentService.MimeType.JSON);
-}
-Guarda → Nueva versión → Implementar. Dime cuando esté listo y construyo el dashboard conectado a tus datos reales.
-
-Listo
-
-18:27
-Ahora voy a construir el dashboard conectado a tus datos reales de Google Sheets.
-
-
-Archivo visualizado, ejecutó un comando, archivo leído
-Archivo visualizado, ejecutó un comando, archivo leído
-Aquí está el dashboard de Sam Beauty conectado a tus datos reales. Descarga ese archivo HTML y ábrelo en Chrome desde tu iPad o celular.
-
-Lo que hace en tiempo real:
-
-Pestaña Hoy — citas del día con nombre, servicio, hora y precio. Stats de citas del día e ingresos de la semana. Alerta de cumpleaños si alguna clienta cumple en los próximos 7 días.
-
-Pestaña Clientes — todas las clientas con buscador. Al tocar cada una se despliega su WhatsApp, cumpleaños, historial médico y notas.
-
-Pestaña Ingresos — total del día, semana y mes calculados automáticamente de las citas reales.
-
-El botón ↻ Actualizar recarga los datos de Google Sheets en el momento.
-
-¿Lo ves bien desde tu dispositivo?
-
-
-Sam beauty dashboard
-Código · HTML 
-Quiero que esto esté 24/7
-
-18:29
-Para que el dashboard esté disponible 24/7 desde cualquier dispositivo sin descargar nada, necesitas publicarlo en internet. La opción más simple y gratuita para siempre es GitHub Pages.
-
-Paso 1 — Crea cuenta en GitHub
-
-Entra a github.com → Sign up gratis con tu Gmail
-
-Paso 2 — Crea un repositorio nuevo
-
-Da clic en New (botón verde)
-Repository name: sam-beauty
-Marca: Public
-Marca: Add a README file
-Da clic en Create repository
-Paso 3 — Sube el archivo del dashboard
-
-En tu repositorio da clic en Add file → Upload files
-Sube el archivo sam-beauty-dashboard.html
-Importante — renómbralo a index.html antes de subirlo
-Da clic en Commit changes
-Paso 4 — Activa GitHub Pages
-
-En tu repositorio ve a Settings
-Menú izquierdo → Pages
-En Source selecciona Deploy from a branch
-Branch: main → carpeta: / (root)
-Da clic en Save
-En 2 minutos te da una URL así: https://tuusuario.github.io/sam-beauty
-
-Esa URL la guardas en favoritos en tu iPad y iPhone — funciona como app, está siempre actualizada y es gratis para siempre.
-
-¿Tienes cuenta en GitHub o la creamos desde cero?
-
-Hazlo perfecto por favor, que se vea bontio, si tu fuera sam y quieres tener una pagina completa como le harias
-
-18:31
-Déjame pensar en esto como si fuera Sam — una esteticista profesional en Mérida que necesita ver su negocio de un vistazo desde el iPad entre cita y cita. Voy a construirlo completo y bonito.
-
-
-Ejecutó un comando, archivo leído
-Ejecutó un comando, archivo leído
-Aquí está el dashboard completo. Descarga ese archivo — se llama index.html — y súbelo a GitHub Pages siguiendo estos pasos rápidos:
-
-1. Entra a github.com → New repository → nombre: sam-beauty → Public → Create
-
-2. Dentro del repo → Add file → Upload files → sube el index.html
-
-3. Ve a Settings → Pages → Branch: main → Save
-
-En 2 minutos tu URL estará lista: https://tuusuario.github.io/sam-beauty
-
-Lo que tiene este dashboard:
-
-Splash screen con animación al abrir, estética de salón de lujo en tonos crema y dorado.
-
-Hoy — citas del día ordenadas por hora, precio de cada una, botón directo a WhatsApp de cada clienta, badge de primera vez, total del día al fondo.
-
-Clientes — buscador en tiempo real, al tocar cada clienta se abre su historial completo con alergias, notas, cumpleaños y cuántas citas lleva.
-
-Ingresos — total del mes en grande, desglose por día/semana, y barra de ingresos por cada servicio.
-
-Historial — todas las citas ordenadas de más reciente a más antigua.
-
-¿Cuál es tu usuario de GitHub para verificar la URL final?
-
-
-Index
-Código · HTML 
-Me gusta, sin embargo tengo una duda, puedes ponerle alguna imagen de fondo?
-
-18:35
-Claro, pero para que funcione en GitHub Pages necesitas usar una imagen de una URL pública — no puedes subir una imagen local directamente al código.
-
-Tengo dos opciones para ti:
-
-Opción 1 — Yo elijo una imagen Te pongo una fotografía de ambiente de salón de belleza de Unsplash (100% gratis y legal) que combine con la estética dorada de Sam Beauty.
-
-Opción 2 — Tú eliges tu imagen Subes una foto tuya del estudio a tu repositorio de GitHub y la usamos. Quedaría personalísimo — la foto real de tu espacio de trabajo.
-
-¿Cuál prefieres? Y dime también dónde quieres la imagen:
-
-Solo en el header como fondo
-En el splash screen de carga
-En el fondo completo de la app con overlay oscuro para que el texto se vea bien
-La 1 por mientras, igual, si puedes hacer el dashboard mas esetico, que le aparezca si tiene una cita para hoy o algo similar, recuerda todo lo que me pidio sam, quiero que cumpla con todo eso
-
-18:36
-Déjame construirlo completo y perfecto.
-
-
-Ejecutó un comando, archivo leído
-Ejecutó un comando, archivo leído
-Aquí está el dashboard completo y rediseñado. Lo que tiene ahora:
-
-Estética — fondo oscuro con foto de salón de belleza, tonos dorados y crema, tipografía elegante con Cormorant Garamond. Splash screen animado al abrir.
-
-Pestaña Hoy — banner hero que dice cuántas citas tiene Sam ese día y cuál es la próxima. Si no hay citas, le aparece un mensaje especial diciéndolo. Las citas de primera vez tienen un borde dorado para distinguirlas. Botón directo a WhatsApp en cada cita. Total del día con cuántas están confirmadas.
-
-Pestaña Clientes — buscador, al abrir cada clienta muestra total de citas, total gastado, historial médico como tags, notas y botón de WhatsApp. Si tiene cumpleaños próximo aparece 🎂 en su nombre.
-
-Pestaña Ingresos — número del mes en grande con foto de fondo, desglose por día/semana/mes, barras por servicio mostrando cuál genera más.
-
-Pestaña Historial — todas las citas de más reciente a más antigua.
-
-Ahora súbelo a GitHub Pages como index.html y tendrás tu URL permanente. ¿Ya tienes el repositorio creado?
-
-
-Index
-Código · HTML 
-Estoy revisando pero no se refleja nada en el dashboard
-
-18:50
-Normal — el dashboard no puede leer Google Sheets directamente desde el navegador porque Google bloquea las peticiones por seguridad (CORS).
-
-Necesitamos agregar una cosa al script de Apps Script para que permita las peticiones. Regresa a Apps Script y reemplaza todo el código con este:
-
-javascript
-function doPost(e) {
-  try {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var sheetClientes = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CLIENTES');
-
-    var data = JSON.parse(e.postData.contents);
-    var payload = data.payload || data;
-
-    var fecha = payload.startTime ? new Date(payload.startTime).toLocaleDateString('es-MX') : '';
-    var hora = payload.startTime ? new Date(payload.startTime).toLocaleTimeString('es-MX', {hour: '2-digit', minute:'2-digit'}) : '';
-
-    var nombre = '';
-    if (payload.attendees && payload.attendees[0]) {
-      nombre = (payload.attendees[0].firstName || '') + ' ' + (payload.attendees[0].lastName || '');
-      nombre = nombre.trim();
-    }
-
-    var servicio = payload.eventTitle || payload.title || '';
-    var statusMap = {'ACCEPTED':'Confirmada','PENDING':'Pendiente','CANCELLED':'Cancelada','REJECTED':'Cancelada'};
-    var estatus = statusMap[payload.status] || 'Pendiente';
-
-    var whatsapp = '', notas = '', primeraVez = '', precio = '';
-
-    if (payload.responses) {
-      whatsapp = payload.responses.attendeePhoneNumber ? payload.responses.attendeePhoneNumber.value || '' : '';
-      notas = payload.responses.notes ? payload.responses.notes.value || '' : '';
-      var pvKey = '-Es-tu-primera-vez-con-nosotras';
-      primeraVez = payload.responses[pvKey] ? (payload.responses[pvKey].value ? 'Sí' : 'No') : '';
-
-      var precios = {
-        'Clásicas — $650':650,'Clásicas Cafés — $650':650,'Clásicas Pro — $780':780,'Híbridas — $680':680,
-        'Efecto Mojado — $780':780,'Efecto Mojado Cafés — $780':780,'Wispy — $780':780,'Manga / Anime — $780':780,
-        'Volumen Tec 2D/3D — $750':750,'Volumen Tec 4D/5D — $750':750,'MegaVolumen Tec — $950':950,
-        'Natural / Clásicas — $450':450,'Clásicas Pro / Híbridas — $450':450,'Efectos / Volumen Tec — $470':470,'MegaVolumen — $500':500,
-        'Natural / Clásicas — $500':500,'Clásicas Pro / Híbridas — $500':500,'Efectos / Volumen Tec — $500':500,'MegaVolumen — $600':600
-      };
-
-      var opcion = '';
-      ['tipoExtensiones','tipoEstilo','tipoRetoque
-La respuesta de Claude fue interrumpida.
-Espera, pero esto que vamos a corregir para que es
-
-18:51
-Buena pregunta. El problema no es el script — el script está bien y ya funciona (las citas llegan a Google Sheets perfectamente).
-
-El problema es diferente: cuando el dashboard intenta leer datos de Google Apps Script desde el navegador, Google bloquea la petición por seguridad. Es un error que se llama CORS.
-
-Hay dos formas de resolverlo:
-
-Opción 1 — Usar Google Apps Script como API con JSONP Modificamos el script para que responda de una forma que el navegador sí acepta. No afecta el webhook de Cal.com, solo agrega la lectura.
-
-Opción 2 — Publicar los datos como JSON público Apps Script puede generar un archivo JSON que el dashboard lee sin problema. Más simple y más rápido.
-
-Antes de tocar el script, dime — cuando abres el dashboard en el navegador y le das a Actualizar, ¿ves algún error? Abre las herramientas del desarrollador (clic derecho → Inspeccionar → Consola) y dime qué mensaje aparece en rojo. Con eso confirmo exactamente cuál es el problema y lo resuelvo sin tocar lo que ya funciona.
-
-1780879934426_image.png
-18:52
-Ese es el problema exacto — estás abriendo el archivo directo desde tu computadora (file:///) y el navegador bloquea todas las peticiones externas por seguridad.
-
-La solución es simple: el dashboard necesita estar en internet para funcionar, no abierto como archivo local.
-
-Por eso necesitamos subirlo a GitHub Pages ahora. Es el paso que faltaba.
-
-Hazlo en 5 minutos:
-
-1. Entra a github.com → crea cuenta si no tienes → Sign up gratis
-
-2. Una vez dentro → botón verde New (repositorio nuevo)
-
-Repository name: sam-beauty
-Marca: Public
-Marca: Add a README file
-Clic en Create repository
-3. Dentro del repositorio → Add file → Upload files
-
-Sube el archivo index.html que descargaste
-Clic en Commit changes
-4. Ve a Settings → menú izquierdo Pages
-
-Source: Deploy from a branch
-Branch: main → carpeta: / (root)
-Clic en Save
-5. Espera 2 minutos → tu URL estará lista: https://tuusuario.github.io/sam-beauty
-
-Esa URL la abres desde iPad, iPhone o cualquier navegador y el dashboard carga con todos los datos en tiempo real.
-
-¿Tienes cuenta en GitHub o la creamos desde cero?
-
-1780880234307_image.png
-en donde
-
-18:57
-Perfecto, ya tienes el repositorio con el index.html subido. Ahora activa GitHub Pages:
-
-Da clic en Settings (arriba a la derecha, junto a Insights)
-En el menú izquierdo busca Pages
-En Source selecciona Deploy from a branch
-En Branch selecciona main → carpeta / (root)
-Da clic en Save
-Espera 2 minutos y tu URL estará en: https://CristianGPT-svg.github.io/sam-beauty
-
-Ábrela y dime si carga el dashboard.
-
-1780880308824_image.png
-18:58
-GitHub Pages aún no está activado. Regresa al repositorio y haz esto:
-
-Clic en Settings (en el menú de tu repositorio, no el de tu perfil)
-En el menú izquierdo baja hasta encontrar Pages
-En Build and deployment → Source → cambia de "Deploy from a branch" si no está seleccionado
-Branch → selecciona main → / (root)
-Clic en Save
-Después de guardar aparece un mensaje azul que dice "GitHub Pages source saved". Espera 2 minutos y recarga la URL.
-
-¿Ves la opción Pages en el menú izquierdo de Settings?
-
-Ya cargó
-
-18:59
-¡Perfecto! Ahora dime — ¿se están viendo los datos de las citas y clientes en el dashboard, o sigue sin cargar la información?
-
-Abre la consola del navegador (F12 → Console) y dime si aparece algún error en rojo relacionado con CORS o fetch.
-
-1780880391803_image.png
-18:59
-El único error que veo es favicon.ico 404 — eso es solo el ícono de la pestaña del navegador, no afecta nada importante.
-
-El dashboard está cargando pero los datos no aparecen porque Google Apps Script bloquea las peticiones desde dominios externos. Necesito agregar una línea al script que lo permita.
-
-Ve a Apps Script y reemplaza solo la función doGet con esta versión corregida:
-
-javascript
-function doGet(e) {
-  var action = e.parameter.action;
-  var callback = e.parameter.callback;
-
-  var result = {};
-
-  if (action === 'getCitas') {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var data = sheet.getDataRange().getValues();
-    var rows = [];
-    for (var i = 1; i < data.length; i++) {
-      if (data[i][0]) {
-        rows.push({fecha:data[i][0],hora:data[i][1],nombre:data[i][2],whatsapp:data[i][3],servicio:data[i][4],precio:data[i][5],formaPago:data[i][6],estatus:data[i][7],notas:data[i][8],primeraVez:data[i][9]});
-      }
-    }
-    result = {status:'ok', data:rows};
-  } else if (action === 'getClientes') {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CLIENTES');
-    var data = sheet.getDataRange().getValues();
-    var rows = [];
-    for (var i = 1; i < data.length; i++) {
-      if (data[i][0]) {
-        rows.push({nombre:data[i][0],whatsapp:data[i][1],cumpleanos:data[i][2],ultimaCita:data[i][3],ultimoServicio:data[i][4],historialMedico:data[i][5],notas:data[i][6],fotos:data[i][7]});
-      }
-    }
-    result = {status:'ok', data:rows};
-  } else {
-    result = {status:'ok', message:'Webhook Sam Beauty activo'};
-  }
-
-  if (callback) {
-    return ContentService.createTextOutput(callback + '(' + JSON.stringify(result) + ')').setMimeType(ContentService.MimeType.JAVASCRIPT);
-  }
-
-  return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
-}
-Guarda → Nueva versión → Implementar.
-
-Luego en el index.html necesito cambiar cómo hace las peticiones. Dame un momento y te doy el archivo actualizado completo.
-
-Dame el codigo completo mejor
-
-19:00
-Aquí está el código completo para Apps Script. Borra todo y pega esto:
-
-javascript
-function doPost(e) {
-  try {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var sheetClientes = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CLIENTES');
-
-    var data = JSON.parse(e.postData.contents);
-    var payload = data.payload || data;
-
-    var fecha = payload.startTime ? new Date(payload.startTime).toLocaleDateString('es-MX') : '';
-    var hora = payload.startTime ? new Date(payload.startTime).toLocaleTimeString('es-MX', {hour: '2-digit', minute:'2-digit'}) : '';
-
-    var nombre = '';
-    if (payload.attendees && payload.attendees[0]) {
-      nombre = (payload.attendees[0].firstName || '') + ' ' + (payload.attendees[0].lastName || '');
-      nombre = nombre.trim();
-    }
-
-    var servicio = payload.eventTitle || payload.title || '';
-    var statusMap = {'ACCEPTED':'Confirmada','PENDING':'Pendiente','CANCELLED':'Cancelada','REJECTED':'Cancelada'};
-    var estatus = statusMap[payload.status] || 'Pendiente';
-
-    var whatsapp = '', notas = '', primeraVez = '', precio = '';
-
-    if (payload.responses) {
-      whatsapp = payload.responses.attendeePhoneNumber ? payload.responses.attendeePhoneNumber.value || '' : '';
-      notas = payload.responses.notes ? payload.responses.notes.value || '' : '';
-      var pvKey = '-Es-tu-primera-vez-con-nosotras';
-      primeraVez = payload.responses[pvKey] ? (payload.responses[pvKey].value ? 'Sí' : 'No') : '';
-
-      var precios = {
-        'Clásicas — $650':650,'Clásicas Cafés — $650':650,'Clásicas Pro — $780':780,'Híbridas — $680':680,
-        'Efecto Mojado — $780':780,'Efecto Mojado Cafés — $780':780,'Wispy — $780':780,'Manga / Anime — $780':780,
-        'Volumen Tec 2D/3D — $750':750,'Volumen Tec 4D/5D — $750':750,'MegaVolumen Tec — $950':950,
-        'Natural / Clásicas — $450':450,'Clásicas Pro / Híbridas — $450':450,'Efectos / Volumen Tec — $470':470,'MegaVolumen — $500':500,
-        'Natural / Clásicas — $500':500,'Clásicas Pro / Híbridas — $500':500,'Efectos / Volumen Tec — $500':500,'MegaVolumen — $600':600
-      };
-
-      var opcion = (payload.responses.tipoExtensiones ? payload.responses.tipoExtensiones.value : '') ||
-                   (payload.responses.tipoEstilo ? payload.responses.tipoEstilo.value : '') ||
-                   (payload.responses.tipoRetoque ? payload.responses.tipoRetoque.value : '') ||
-                   (payload.responses.tipoCejas ? payload.responses.tipoCejas.value : '') || '';
-
-      if (opcion && precios[opcion]) {
-        precio = precios[opcion];
-      } else {
-        var preciosFijos = {
-          'Lash Lifting':450,'Lash Combo':650,'Retiro de extensiones':140,
-          'Brow Art':250,'Lami Brows':450,'Brow Tint':400,'Full Brows':470,
-          'Shot de Vitamina':500
-        };
-        for (var key in preciosFijos) {
-          if (servicio.indexOf(key) !== -1) { precio = preciosFijos[key]; break; }
-        }
-      }
-
-      if (servicio.indexOf('Keratina') !== -1) precio = 'A valorar';
-
-      var glitter = payload.responses.quieresEfectoDeColorOGlitter ? payload.responses.quieresEfectoDeColorOGlitter.value : false;
-      if (glitter && precio && precio !== 'A valorar') precio = Number(precio) + 100;
-    }
-
-    sheet.appendRow([fecha, hora, nombre, whatsapp, servicio, precio, '', estatus, notas, primeraVez]);
-
-    var dataClientes = sheetClientes.getDataRange().getValues();
-    var clienteExiste = false;
-    for (var i = 1; i < dataClientes.length; i++) {
-      if (dataClientes[i][0] === nombre) {
-        sheetClientes.getRange(i+1, 4).setValue(fecha);
-        sheetClientes.getRange(i+1, 5).setValue(servicio);
-        if (whatsapp) sheetClientes.getRange(i+1, 2).setValue(whatsapp);
-        clienteExiste = true; break;
-      }
-    }
-    if (!clienteExiste && nombre) {
-      sheetClientes.appendRow([nombre, whatsapp, '', fecha, servicio, '', notas, '']);
-    }
-
-    return ContentService.createTextOutput(JSON.stringify({status:'ok'})).setMimeType(ContentService.MimeType.JSON);
-  } catch(err) {
-    return ContentService.createTextOutput(JSON.stringify({status:'error', message:err.message})).setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-function doGet(e) {
-  var action = e.parameter.action;
-  var callback = e.parameter.callback;
-  var result = {};
-
-  if (action === 'getCitas') {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CITAS');
-    var data = sheet.getDataRange().getValues();
-    var rows = [];
-    for (var i = 1; i < data.length; i++) {
-      if (data[i][0]) {
-        rows.push({
-          fecha: String(data[i][0]), hora: String(data[i][1]),
-          nombre: String(data[i][2]), whatsapp: String(data[i][3]),
-          servicio: String(data[i][4]), precio: String(data[i][5]),
-          formaPago: String(data[i][6]), estatus: String(data[i][7]),
-          notas: String(data[i][8]), primeraVez: String(data[i][9])
-        });
-      }
-    }
-    result = {status:'ok', data:rows};
-  } else if (action === 'getClientes') {
-    var sheet = SpreadsheetApp.openById('14xboCfENLZmuc5ktEfjIoYkTboy9M4b4wlHnyVbr3Vc').getSheetByName('CLIENTES');
-    var data = sheet.getDataRange().getValues();
-    var rows = [];
-    for (var i = 1; i < data.length; i++) {
-      if (data[i][0]) {
-        rows.push({
-          nombre: String(data[i][0]), whatsapp: String(data[i][1]),
-          cumpleanos: String(data[i][2]), ultimaCita: String(data[i][3]),
-          ultimoServicio: String(data[i][4]), historialMedico: String(data[i][5]),
-          notas: String(data[i][6]), fotos: String(data[i][7])
-        });
-      }
-    }
-    result = {status:'ok', data:rows};
-  } else {
-    result = {status:'ok', message:'Webhook Sam Beauty activo'};
-  }
-
-  if (callback) {
-    return ContentService.createTextOutput(callback + '(' + JSON.stringify(result) + ')').setMimeType(ContentService.MimeType.JAVASCRIPT);
-  }
-  return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
-}
-Guarda → Nueva versión → Implementar.
-
-Ahora necesito actualizar el index.html para usar JSONP en vez de fetch. Dame un momento y te genero el archivo completo actualizado.
-
-Dale
-
-19:02
-
-Ejecutó un comando, archivo leído
-Ejecutó un comando, archivo leído
-Descarga ese archivo y súbelo a GitHub reemplazando el anterior:
-
-Entra a tu repositorio sam-beauty en GitHub
-Da clic en index.html
-Clic en el ícono de lápiz ✏️ (editar)
-Borra todo → pega el contenido del archivo nuevo
-Clic en Commit changes
-O más fácil: da clic en Add file → Upload files → arrastra el nuevo index.html → selecciona Replace existing file → Commit.
-
-Espera 1 minuto y recarga https://CristianGPT-svg.github.io/sam-beauty — ahora sí deben aparecer los datos. ¿Lo intentamos?
-
-
-Index
-Código · HTML 
-
-Te quedaste sin créditos de uso. Compra más para continuar ahora o espera hasta las 8:30 p.m., cuando se restablezca el uso de tu plan.
-Comprar más
-
-
-
-
-Claude es IA y puede cometer errores. Por favor, verifica nuevamente las respuestas.
-
-
-raw
-Index · HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -2608,11 +31,11 @@ Index · HTML
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
- 
+
 .bg-img{position:fixed;inset:0;z-index:0;background-image:url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1200&q=80&auto=format&fit=crop');background-size:cover;background-position:center;filter:brightness(0.18) saturate(0.6)}
 .bg-ov{position:fixed;inset:0;z-index:1;background:linear-gradient(180deg,rgba(18,12,6,0.75) 0%,rgba(18,12,6,0.4) 40%,rgba(18,12,6,0.88) 100%)}
 .app{position:relative;z-index:2;min-height:100vh}
- 
+
 /* SPLASH */
 .splash{position:fixed;inset:0;z-index:1000;background:#100C08;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.9s ease}
 .splash.hide{opacity:0;pointer-events:none}
@@ -2627,7 +50,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .sdot{width:4px;height:4px;border-radius:50%;background:var(--gold);animation:sdot 1.4s infinite}
 .sdot:nth-child(2){animation-delay:.2s}.sdot:nth-child(3){animation-delay:.4s}
 @keyframes sdot{0%,80%,100%{opacity:0.3;transform:scale(0.8)}40%{opacity:1;transform:scale(1.3)}}
- 
+
 /* HEADER */
 .header{padding:1.25rem 1.5rem 1rem;display:flex;align-items:flex-start;justify-content:space-between;position:sticky;top:0;z-index:100;background:linear-gradient(180deg,rgba(12,8,4,0.96) 0%,rgba(12,8,4,0) 100%);backdrop-filter:blur(10px)}
 .brand-gem{font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;opacity:0.7}
@@ -2640,24 +63,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .rbtn:hover{background:var(--gold-pale);border-color:var(--gold)}
 .rbtn.spin{animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
- 
+
 /* NAV */
 .nav{display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--border);background:rgba(12,8,4,0.65);backdrop-filter:blur(14px);position:sticky;top:0;z-index:99}
 .nav::-webkit-scrollbar{display:none}
 .nbtn{flex:1;min-width:75px;padding:.875rem 0;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);background:none;border:none;border-bottom:1.5px solid transparent;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .25s;white-space:nowrap}
 .nbtn.on{color:var(--gold-light);border-bottom-color:var(--gold)}
- 
+
 /* CONTENT */
 .content{padding:1.25rem 1.25rem 6rem;max-width:680px;margin:0 auto}
 .sec{display:none;animation:fadeUp .35s ease}
 .sec.on{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
- 
+
 /* SECTION HEADING */
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem;margin-top:1.5rem}
 .sh-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:500}
 .sh-c{font-size:11px;color:var(--gold);background:var(--gold-pale);padding:2px 10px;border-radius:20px;border:1px solid var(--border)}
- 
+
 /* HERO BANNER */
 .hero{border-radius:var(--r);overflow:hidden;position:relative;min-height:148px;display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem;border:1px solid var(--border-mid);margin-bottom:1.25rem;margin-top:.5rem}
 .hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80&auto=format&fit=crop');background-size:cover;background-position:center top;filter:brightness(0.3) saturate(0.7)}
@@ -2666,7 +89,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .hero-tag{font-size:9px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;opacity:.8}
 .hero-title{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--text);font-weight:300;line-height:1.25}
 .hero-sub{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
- 
+
 /* ALERTS */
 .alert{border-radius:var(--rs);padding:.875rem 1.25rem;margin-bottom:1rem;display:flex;align-items:flex-start;gap:12px;border:1px solid}
 .alert-bd{background:var(--rose-bg);border-color:rgba(212,160,160,0.25)}
@@ -2674,14 +97,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .alert-icon{font-size:20px;flex-shrink:0;margin-top:1px}
 .alert-title{font-size:13px;font-weight:500;color:var(--text)}
 .alert-sub{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5}
- 
+
 /* STATS */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem}
 .stat{background:rgba(255,248,235,0.05);border-radius:var(--rs);padding:1rem .875rem;border:1px solid var(--border);backdrop-filter:blur(8px);text-align:center}
 .stat-l{font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
 .stat-v{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-light);font-weight:400;margin-top:6px;line-height:1}
 .stat-s{font-size:10px;color:var(--muted);margin-top:4px}
- 
+
 /* CITA CARD */
 .ccard{background:rgba(255,248,235,0.05);border-radius:var(--rs);padding:1rem 1.25rem;border:1px solid var(--border);backdrop-filter:blur(8px);display:flex;align-items:center;gap:14px;margin-bottom:8px;transition:all .2s}
 .ccard:hover{background:rgba(255,248,235,0.08);border-color:var(--border-mid)}
@@ -2699,31 +122,31 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .cprice{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold-light);font-weight:400;line-height:1}
 .walink{display:block;margin-top:6px;font-size:10px;color:#5CDD8B;text-decoration:none;opacity:.85}
 .walink:hover{opacity:1}
- 
+
 /* BADGES */
 .badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;display:inline-block}
 .b-ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(122,200,122,0.2)}
 .b-pend{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(232,184,96,0.2)}
 .b-cancel{background:var(--red-bg);color:var(--red);border:1px solid rgba(224,128,128,0.2)}
 .b-primera{background:var(--gold-pale);color:var(--gold-light);border:1px solid var(--border)}
- 
+
 /* TOTAL BAR */
 .tbar{background:linear-gradient(135deg,rgba(201,160,90,0.16) 0%,rgba(201,160,90,0.05) 100%);border:1px solid var(--border-mid);border-radius:var(--r);padding:1.25rem 1.5rem;display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem;backdrop-filter:blur(12px)}
 .tbar-l .tl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
 .tbar-l .tc{font-size:12px;color:var(--gold);margin-top:4px}
 .tamount{font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--gold-light);font-weight:300}
- 
+
 /* PAY */
 .payrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:1rem}
 .paypill{font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);color:var(--muted);background:var(--gold-ultra)}
- 
+
 /* SEARCH */
 .swrap{position:relative;margin-bottom:1rem}
 .sinput{width:100%;padding:.75rem 1rem .75rem 2.75rem;border:1px solid var(--border);border-radius:var(--rs);background:rgba(255,248,235,0.05);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color .2s;backdrop-filter:blur(8px)}
 .sinput::placeholder{color:var(--muted)}
 .sinput:focus{border-color:var(--gold)}
 .sicon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--muted);pointer-events:none}
- 
+
 /* CLIENT CARD */
 .clcard{background:rgba(255,248,235,0.04);border-radius:var(--rs);border:1px solid var(--border);backdrop-filter:blur(8px);margin-bottom:8px;overflow:hidden;transition:border-color .2s}
 .clcard:hover{border-color:var(--border-mid)}
@@ -2745,7 +168,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .htag{font-size:11px;padding:2px 8px;border-radius:12px;background:var(--gold-pale);color:var(--gold-light);border:1px solid var(--border)}
 .wabtn{display:inline-flex;align-items:center;gap:6px;background:rgba(37,211,102,0.15);color:#5CDD8B;border:1px solid rgba(37,211,102,0.2);padding:7px 16px;border-radius:20px;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:12px;text-decoration:none;transition:all .2s}
 .wabtn:hover{background:rgba(37,211,102,0.22)}
- 
+
 /* INGRESOS */
 .inghero{border-radius:var(--r);padding:1.75rem 1.5rem;margin-bottom:1.25rem;position:relative;overflow:hidden;border:1px solid var(--border-mid)}
 .inghero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800&q=80&auto=format&fit=crop');background-size:cover;background-position:center;filter:brightness(0.12) saturate(0.5)}
@@ -2758,7 +181,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .ingcard.full{grid-column:1/-1}
 .ing-cl{font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
 .ing-cv{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold-light);font-weight:300;margin-top:6px}
- 
+
 /* BAR */
 .bitem{background:rgba(255,248,235,0.04);border-radius:var(--rs);border:1px solid var(--border);padding:.875rem 1.25rem;margin-bottom:6px}
 .bhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -2766,7 +189,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .bval{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold-light)}
 .btrack{height:3px;background:rgba(255,255,255,0.08);border-radius:2px}
 .bfill{height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;transition:width .8s ease}
- 
+
 /* HISTORIAL */
 .hitem{background:rgba(255,248,235,0.04);border-radius:var(--rs);border:1px solid var(--border);padding:.875rem 1.25rem;display:flex;align-items:center;gap:12px;margin-bottom:6px}
 .hdate{min-width:68px}
@@ -2777,7 +200,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .hsvc{font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hend{text-align:right;flex-shrink:0}
 .hprice{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold-light)}
- 
+
 /* LOADING / EMPTY / ERROR */
 .loading{text-align:center;padding:3rem 1rem}
 .ldots{display:flex;gap:6px;justify-content:center;margin-bottom:12px}
@@ -2795,7 +218,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 <body>
 <div class="bg-img"></div>
 <div class="bg-ov"></div>
- 
+
 <div class="splash" id="splash">
   <div class="splash-bg"></div>
   <div class="splash-c">
@@ -2806,7 +229,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="splash-dots"><div class="sdot"></div><div class="sdot"></div><div class="sdot"></div></div>
   </div>
 </div>
- 
+
 <div class="app">
 <div class="header">
   <div>
@@ -2820,16 +243,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <button class="rbtn" id="rbtn" onclick="loadAll()" title="Actualizar">↻</button>
   </div>
 </div>
- 
+
 <nav class="nav">
   <button class="nbtn on" onclick="showTab('hoy',0)">Hoy</button>
   <button class="nbtn" onclick="showTab('clientes',1)">Clientes</button>
   <button class="nbtn" onclick="showTab('ingresos',2)">Ingresos</button>
   <button class="nbtn" onclick="showTab('historial',3)">Historial</button>
 </nav>
- 
+
 <div class="content">
- 
+
   <!-- HOY -->
   <div id="tab-hoy" class="sec on">
     <div id="bdAlert"></div>
@@ -2856,14 +279,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <span class="paypill">🔄 Transferencia</span>
     </div>
   </div>
- 
+
   <!-- CLIENTES -->
   <div id="tab-clientes" class="sec">
     <div class="sh" style="margin-top:.5rem"><div class="sh-l">Mis clientas</div><div class="sh-c" id="cClientes">—</div></div>
     <div class="swrap"><span class="sicon">🔍</span><input class="sinput" id="sinput" placeholder="Buscar por nombre..." oninput="filterCl(this.value)"></div>
     <div id="clList"><div class="loading"><div class="ldots"><div class="ldot"></div><div class="ldot"></div><div class="ldot"></div></div><p>Cargando clientes...</p></div></div>
   </div>
- 
+
   <!-- INGRESOS -->
   <div id="tab-ingresos" class="sec">
     <div class="inghero" style="margin-top:.5rem">
@@ -2882,21 +305,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="sh"><div class="sh-l">Por servicio este mes</div></div>
     <div id="ingSvcs"></div>
   </div>
- 
+
   <!-- HISTORIAL -->
   <div id="tab-historial" class="sec">
     <div class="sh" style="margin-top:.5rem"><div class="sh-l">Todas las citas</div><div class="sh-c" id="cHist">—</div></div>
     <div id="histList"><div class="loading"><div class="ldots"><div class="ldot"></div><div class="ldot"></div><div class="ldot"></div></div><p>Cargando historial...</p></div></div>
   </div>
- 
+
 </div>
 <div class="btmsafe"></div>
 </div>
- 
+
 <script>
 const API = 'https://script.google.com/macros/s/AKfycbz-L9nK6VaNvZdzmnz9OGGo66R7gcbb42-Unf2VCJLOzWPzL3tjkFv3oT9FPZnxiapHFw/exec';
 let CITAS = [], CLIENTES = [], loadedC = false, loadedCl = false;
- 
+
 // JSONP fetch
 function jsonp(url, cb) {
   const name = 'cb_' + Date.now() + '_' + Math.round(Math.random()*1e6);
@@ -2907,7 +330,7 @@ function jsonp(url, cb) {
   s.src = url + '&callback=' + name;
   document.head.appendChild(s);
 }
- 
+
 // DATETIME
 function updateDT() {
   const n = new Date();
@@ -2917,7 +340,7 @@ function updateDT() {
   document.getElementById('hTime').textContent = n.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
 }
 updateDT(); setInterval(updateDT, 30000);
- 
+
 // NAV
 function showTab(id, idx) {
   document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
@@ -2925,7 +348,7 @@ function showTab(id, idx) {
   document.getElementById('tab-' + id).classList.add('on');
   document.querySelectorAll('.nbtn')[idx].classList.add('on');
 }
- 
+
 // FECHA UTILS
 function pFecha(f) {
   if (!f || f === 'undefined' || f === '') return null;
@@ -2954,7 +377,7 @@ function bdSoon(c) {
   const diff=(cd-hoy)/86400000;
   return diff>=0&&diff<=7;
 }
- 
+
 // FORMAT
 function fp(p) {
   if(!p||p==='undefined'||p==='') return '—';
@@ -2980,7 +403,7 @@ function fHora(h) {
 function mesNombre() {
   return ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][new Date().getMonth()];
 }
- 
+
 // LOAD
 function loadAll() {
   const btn=document.getElementById('rbtn');
@@ -2989,14 +412,14 @@ function loadAll() {
   loadCitas();
   loadClientes();
 }
- 
+
 function checkDone() {
   if(loadedC && loadedCl) {
     const btn=document.getElementById('rbtn');
     btn.classList.remove('spin');
   }
 }
- 
+
 function loadCitas() {
   jsonp(API + '?action=getCitas&t=' + Date.now(), function(err, json) {
     if(err || !json) {
@@ -3009,7 +432,7 @@ function loadCitas() {
     loadedC = true; checkDone();
   });
 }
- 
+
 function loadClientes() {
   jsonp(API + '?action=getClientes&t=' + Date.now(), function(err, json) {
     if(err || !json) {
@@ -3021,27 +444,27 @@ function loadClientes() {
     loadedCl = true; checkDone();
   });
 }
- 
+
 // HOY
 function renderHoy() {
   const hoy = CITAS.filter(c => { const f=pFecha(c.fecha); return f&&isToday(f); })
     .sort((a,b) => (a.hora||'').localeCompare(b.hora||''));
- 
+
   let totalHoy=0, totalSem=0;
   CITAS.forEach(c => {
     const f=pFecha(c.fecha), p=fn(c.precio);
     if(f&&isToday(f)) totalHoy+=p;
     if(f&&isWeek(f)) totalSem+=p;
   });
- 
+
   document.getElementById('sCitas').textContent = hoy.length;
   document.getElementById('sHoy').textContent = '$'+Math.round(totalHoy).toLocaleString('es-MX');
   document.getElementById('sSem').textContent = '$'+Math.round(totalSem).toLocaleString('es-MX');
   document.getElementById('cHoy').textContent = hoy.length + ' cita' + (hoy.length!==1?'s':'');
- 
+
   const dias=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
   const diaHoy=dias[new Date().getDay()];
- 
+
   if(hoy.length===0) {
     document.getElementById('heroTitle').textContent = 'Sin citas hoy';
     document.getElementById('heroSub').textContent = 'Tu agenda está libre — disfruta tu día ✨';
@@ -3050,13 +473,13 @@ function renderHoy() {
     document.getElementById('tbarWrap').innerHTML = '';
     return;
   }
- 
+
   document.getElementById('freeAlert').innerHTML = '';
   const proxima = hoy[0];
   const hrP = fHora(proxima.hora);
   document.getElementById('heroTitle').textContent = hoy.length + ' cita' + (hoy.length!==1?'s':'') + ' este ' + diaHoy;
   document.getElementById('heroSub').textContent = 'Próxima: ' + proxima.nombre + ' · ' + hrP.h + ':' + hrP.m + ' ' + hrP.ap + (proxima.servicio ? ' — ' + proxima.servicio.substring(0,30) : '');
- 
+
   document.getElementById('citasHoy').innerHTML = hoy.map(c => {
     const hr=fHora(c.hora);
     const primera=c.primeraVez==='Sí'?'<span class="badge b-primera">✨ Primera vez</span>':'';
@@ -3074,14 +497,14 @@ function renderHoy() {
       <div class="cend"><div class="cprice">${fp(c.precio)}</div>${wa}</div>
     </div>`;
   }).join('');
- 
+
   const conf=hoy.filter(c=>c.estatus&&c.estatus.toLowerCase().includes('confirm')).length;
   document.getElementById('tbarWrap').innerHTML = `<div class="tbar">
     <div class="tbar-l"><div class="tl">Total estimado del día</div><div class="tc">${hoy.length} cita${hoy.length!==1?'s':''} · ${conf} confirmada${conf!==1?'s':''}</div></div>
     <div class="tamount">$${Math.round(totalHoy).toLocaleString('es-MX')}</div>
   </div>`;
 }
- 
+
 // CLIENTES
 function renderClientes(filtro) {
   const lista = filtro ? CLIENTES.filter(c=>c.nombre.toLowerCase().includes(filtro.toLowerCase())) : CLIENTES;
@@ -3121,7 +544,7 @@ function renderClientes(filtro) {
     </div>`;
   }).join('');
 }
- 
+
 function togCl(i) {
   const d=document.getElementById('cd-'+i), ch=document.getElementById('chev-'+i);
   if(!d) return;
@@ -3129,7 +552,7 @@ function togCl(i) {
   if(ch) ch.classList.toggle('open',o);
 }
 function filterCl(v) { renderClientes(v); }
- 
+
 // INGRESOS
 function renderIngresos() {
   let dia=0,sem=0,mes=0,cnt=0;
@@ -3150,7 +573,7 @@ function renderIngresos() {
   document.getElementById('ingHoy').textContent='$'+Math.round(dia).toLocaleString('es-MX');
   document.getElementById('ingSem').textContent='$'+Math.round(sem).toLocaleString('es-MX');
   document.getElementById('ingCitas').textContent=cnt+' cita'+(cnt!==1?'s':'');
- 
+
   const svcs=Object.entries(smap).sort((a,b)=>b[1]-a[1]);
   const el=document.getElementById('ingSvcs');
   if(!svcs.length){el.innerHTML='<div class="empty"><div class="empty-icon">📊</div><p>Sin datos este mes</p></div>';return;}
@@ -3160,7 +583,7 @@ function renderIngresos() {
     <div class="btrack"><div class="bfill" style="width:${Math.round(tot/max*100)}%"></div></div>
   </div>`).join('');
 }
- 
+
 // HISTORIAL
 function renderHistorial() {
   const sorted=[...CITAS].sort((a,b)=>{const fa=pFecha(a.fecha),fb=pFecha(b.fecha);if(!fa||!fb)return 0;return fb-fa;});
@@ -3174,7 +597,7 @@ function renderHistorial() {
     <div class="hend"><div class="hprice">${fp(c.precio)}</div><div style="margin-top:3px">${badge(c.estatus)}</div></div>
   </div>`).join('');
 }
- 
+
 // BIRTHDAYS
 function checkBd() {
   const prox=CLIENTES.filter(c=>bdSoon(c.cumpleanos));
@@ -3184,7 +607,7 @@ function checkBd() {
     el.innerHTML=`<div class="alert alert-bd"><div class="alert-icon">🎂</div><div><div class="alert-title">Cumpleaños próximos: ${n}</div><div class="alert-sub">En los próximos 7 días — ¡envíales un mensaje especial!</div></div></div>`;
   } else el.innerHTML='';
 }
- 
+
 // SPLASH
 window.addEventListener('load',()=>{
   loadAll();
@@ -3193,4 +616,3 @@ window.addEventListener('load',()=>{
 </script>
 </body>
 </html>
- 
